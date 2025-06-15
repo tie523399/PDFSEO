@@ -1,0 +1,3959 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Master - 專業線上PDF編輯器 | 免費PDF工具</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="PDF Master 是一款功能強大的線上PDF編輯器，提供PDF編輯、合併、分割、轉換等功能。支援10種語言，完全免費使用。">
+    <meta name="keywords" content="PDF編輯器, PDF editor, PDF工具, PDF轉換, PDF合併, PDF分割, 線上PDF, 免費PDF編輯器, PDF Master">
+    <meta name="author" content="PDF Master Team">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="PDF Master - 專業線上PDF編輯器">
+    <meta property="og:description" content="功能強大的線上PDF編輯器，支援編輯、合併、分割、轉換等功能">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pdfmaster.com">
+    <meta property="og:image" content="https://pdfmaster.com/images/og-image.png">
+    <meta property="og:site_name" content="PDF Master">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="zh_CN">
+    <meta property="og:locale:alternate" content="ja_JP">
+    <meta property="og:locale:alternate" content="ko_KR">
+    <meta property="og:locale:alternate" content="es_ES">
+    <meta property="og:locale:alternate" content="fr_FR">
+    <meta property="og:locale:alternate" content="de_DE">
+    <meta property="og:locale:alternate" content="pt_BR">
+    <meta property="og:locale:alternate" content="ru_RU">
+    <meta property="og:locale:alternate" content="ar_SA">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PDF Master - 專業線上PDF編輯器">
+    <meta name="twitter:description" content="功能強大的線上PDF編輯器，支援編輯、合併、分割、轉換等功能">
+    <meta name="twitter:image" content="https://pdfmaster.com/images/twitter-card.png">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdfmaster.com">
+    
+    <!-- Language Alternates -->
+    <link rel="alternate" hreflang="zh-TW" href="https://pdfmaster.com/zh-tw">
+    <link rel="alternate" hreflang="en" href="https://pdfmaster.com/en">
+    <link rel="alternate" hreflang="zh-CN" href="https://pdfmaster.com/zh-cn">
+    <link rel="alternate" hreflang="ja" href="https://pdfmaster.com/ja">
+    <link rel="alternate" hreflang="ko" href="https://pdfmaster.com/ko">
+    <link rel="alternate" hreflang="es" href="https://pdfmaster.com/es">
+    <link rel="alternate" hreflang="fr" href="https://pdfmaster.com/fr">
+    <link rel="alternate" hreflang="de" href="https://pdfmaster.com/de">
+    <link rel="alternate" hreflang="pt" href="https://pdfmaster.com/pt">
+    <link rel="alternate" hreflang="ru" href="https://pdfmaster.com/ru">
+    <link rel="alternate" hreflang="ar" href="https://pdfmaster.com/ar">
+    <link rel="alternate" hreflang="hi" href="https://pdfmaster.com/hi">
+    <link rel="alternate" hreflang="it" href="https://pdfmaster.com/it">
+    <link rel="alternate" hreflang="nl" href="https://pdfmaster.com/nl">
+    <link rel="alternate" hreflang="pl" href="https://pdfmaster.com/pl">
+    <link rel="alternate" hreflang="tr" href="https://pdfmaster.com/tr">
+    <link rel="alternate" hreflang="vi" href="https://pdfmaster.com/vi">
+    <link rel="alternate" hreflang="th" href="https://pdfmaster.com/th">
+    <link rel="alternate" hreflang="id" href="https://pdfmaster.com/id">
+    <link rel="alternate" hreflang="sv" href="https://pdfmaster.com/sv">
+    <link rel="alternate" hreflang="x-default" href="https://pdfmaster.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "PDF Master",
+        "description": "專業線上PDF編輯器，提供完整的PDF處理功能",
+        "url": "https://pdfmaster.com",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "2543"
+        }
+    }
+    </script>
+    
+    <!-- 載入必要的庫 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #1557b0;
+            --secondary: #34a853;
+            --danger: #ea4335;
+            --warning: #fbbc04;
+            --dark: #202124;
+            --light: #f8f9fa;
+            --border: #dadce0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+            --shadow-hover: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+            --radius: 8px;
+            --transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f0f2f5;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 頂部工具列 */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo i {
+            font-size: 28px;
+        }
+        
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+        }
+        
+        .tool-group {
+            display: flex;
+            gap: 5px;
+            padding: 0 10px;
+            border-right: 1px solid var(--border);
+        }
+        
+        .tool-group:last-child {
+            border-right: none;
+        }
+        
+        .tool-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: var(--dark);
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .tool-btn:hover {
+            background: var(--light);
+        }
+        
+        .tool-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tool-btn[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 1000;
+        }
+        
+        /* 主要內容區 */
+        .main-container {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        /* 側邊欄 */
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+        }
+        
+        .sidebar.collapsed {
+            width: 60px;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .page-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .page-item {
+            border: 2px solid transparent;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            background: white;
+            overflow: hidden;
+        }
+        
+        .page-item:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+        }
+        
+        .page-item.active {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .page-thumbnail {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .page-number {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        /* 編輯區域 */
+        .editor-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #e8eaed;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .editor-toolbar {
+            background: white;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .zoom-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .zoom-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .zoom-btn:hover {
+            background: var(--light);
+        }
+        
+        .zoom-level {
+            min-width: 60px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .canvas-wrapper {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .pdf-canvas-container {
+            position: relative;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        
+        #pdf-canvas {
+            display: block;
+        }
+        
+        #fabric-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: crosshair;
+        }
+        
+        /* 屬性面板 */
+        .properties-panel {
+            width: 300px;
+            background: white;
+            border-left: 1px solid var(--border);
+            padding: 20px;
+            display: none;
+            overflow-y: auto;
+        }
+        
+        .properties-panel.active {
+            display: block;
+        }
+        
+        .property-group {
+            margin-bottom: 20px;
+        }
+        
+        .property-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .property-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .property-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .color-picker {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* 浮動工具面板 */
+        .floating-tools {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .floating-tool {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: var(--dark);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 18px;
+        }
+        
+        .floating-tool:hover {
+            background: var(--light);
+            transform: scale(1.1);
+        }
+        
+        .floating-tool.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* 上傳區域 */
+        .upload-area {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 40px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .upload-icon {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .upload-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+        
+        .upload-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .upload-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .upload-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+        
+        #file-input {
+            display: none;
+        }
+        
+        /* 載入動畫 */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        .spinner {
+            border: 4px solid var(--light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* 右鍵選單 */
+        .context-menu {
+            position: fixed;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            padding: 8px 0;
+            min-width: 200px;
+            display: none;
+            z-index: 2000;
+        }
+        
+        .context-menu-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+        }
+        
+        .context-menu-item:hover {
+            background: var(--light);
+        }
+        
+        .context-menu-item i {
+            width: 20px;
+            color: #666;
+        }
+        
+        /* 模態框 */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .modal-body {
+            margin-bottom: 20px;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #e8eaed;
+        }
+        
+        /* 文字編輯器 */
+        .text-editor {
+            position: absolute;
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: 4px;
+            padding: 5px;
+            display: none;
+            z-index: 1500;
+        }
+        
+        .text-editor textarea {
+            border: none;
+            outline: none;
+            resize: none;
+            font-family: inherit;
+            min-width: 200px;
+            min-height: 30px;
+        }
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                left: -250px;
+                height: 100%;
+                z-index: 1500;
+                transition: left 0.3s ease;
+            }
+            
+            .sidebar.mobile-open {
+                left: 0;
+            }
+            
+            .properties-panel {
+                position: absolute;
+                right: -300px;
+                height: 100%;
+                z-index: 1500;
+                transition: right 0.3s ease;
+            }
+            
+            .properties-panel.mobile-open {
+                right: 0;
+            }
+            
+            .floating-tools {
+                bottom: 10px;
+                padding: 8px 15px;
+            }
+            
+            .floating-tool {
+                width: 35px;
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+        
+        /* 狀態列 */
+        .status-bar {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* 快捷鍵提示 */
+        .shortcut-hint {
+            background: var(--dark);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            margin-left: 5px;
+        }
+        
+        /* 語言選擇器 */
+        .language-selector {
+            position: relative;
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        
+        .language-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .language-btn:hover {
+            background: var(--light);
+            border-color: var(--primary);
+        }
+        
+        .language-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 5px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            min-width: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+            z-index: 1000;
+        }
+        
+        .language-menu.active {
+            display: block;
+        }
+        
+        .language-menu a {
+            display: block;
+            padding: 10px 16px;
+            color: var(--dark);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+        
+        .language-menu a:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+        
+        /* 印章樣式 */
+        .stamp-preview {
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px auto;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .stamp-preview:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+        
+        .stamp-preview img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        /* 簽名板 */
+        .signature-pad {
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            background: white;
+            cursor: crosshair;
+            margin: 10px 0;
+        }
+        
+        .signature-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* 圖片上傳區域 */
+        .image-upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .image-upload-area:hover {
+            border-color: var(--primary);
+            background: var(--light);
+        }
+        
+        .image-upload-area i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        /* 新聞廣告欄 */
+        .news-ticker {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(90deg, #1a73e8 0%, #34a853 50%, #fbbc04 100%);
+            color: white;
+            padding: 10px 20px;
+            z-index: 4000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideDown 0.5s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+        
+        .news-ticker-content {
+            display: flex;
+            align-items: center;
+            flex: 1;
+            overflow: hidden;
+        }
+        
+        .news-label {
+            font-weight: bold;
+            margin-right: 20px;
+            white-space: nowrap;
+        }
+        
+        .news-items {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+            height: 20px;
+        }
+        
+        .news-item {
+            position: absolute;
+            white-space: nowrap;
+            animation: newsScroll 20s linear infinite;
+        }
+        
+        @keyframes newsScroll {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        .news-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .news-close:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        /* 調整主體內容，為新聞欄留出空間 */
+        body.news-active {
+            padding-top: 50px;
+        }
+        
+        /* Bot 面板 */
+        .bot-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            width: 350px;
+            max-height: 600px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 3000;
+            display: none;
+            flex-direction: column;
+            animation: slideUp 0.3s ease-out;
+        }
+        
+        .bot-panel.active {
+            display: flex;
+        }
+        
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .bot-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            border-radius: var(--radius) var(--radius) 0 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        
+        .bot-minimize {
+            margin-left: auto;
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .bot-minimize:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .bot-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .bot-section {
+            margin-bottom: 25px;
+        }
+        
+        .bot-section h4 {
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-size: 16px;
+        }
+        
+        .bot-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .bot-btn {
+            background: var(--light);
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--dark);
+        }
+        
+        .bot-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .bot-btn i {
+            font-size: 16px;
+        }
+        
+        /* Bot 觸發按鈕 */
+        .bot-trigger {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: var(--transition);
+            z-index: 2999;
+        }
+        
+        .bot-trigger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .bot-trigger:active {
+            transform: scale(0.95);
+        }
+        
+        /* 新聞管理模態框 */
+        .news-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow-hover);
+            z-index: 5000;
+            max-width: 500px;
+            width: 90%;
+            display: none;
+        }
+        
+        .news-modal.active {
+            display: block;
+        }
+        
+        .news-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .news-form input,
+        .news-form textarea {
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+        }
+        
+        .news-form textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        /* 廣告橫幅 */
+        .ad-banner {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            border: 2px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 15px 30px;
+            box-shadow: var(--shadow-hover);
+            display: none;
+            align-items: center;
+            gap: 15px;
+            z-index: 2000;
+        }
+        
+        .ad-banner.active {
+            display: flex;
+        }
+        
+        .ad-banner-content {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .ad-banner-close {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 頭部工具列 -->
+    <header class="header">
+        <div class="logo">
+            <i class="fas fa-file-pdf"></i>
+            PDF Master
+        </div>
+        
+        <div class="toolbar">
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="openFile" onclick="openFile()">
+                    <i class="fas fa-folder-open"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="save" onclick="savePDF()">
+                    <i class="fas fa-save"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="export" onclick="exportPDF()">
+                    <i class="fas fa-download"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="undo" onclick="undo()">
+                    <i class="fas fa-undo"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="redo" onclick="redo()">
+                    <i class="fas fa-redo"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="cut" onclick="cut()">
+                    <i class="fas fa-cut"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="copy" onclick="copy()">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="paste" onclick="paste()">
+                    <i class="fas fa-paste"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="addPage" onclick="addPage()">
+                    <i class="fas fa-plus-circle"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="deletePage" onclick="deletePage()">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="reorderPages" onclick="reorderPages()">
+                    <i class="fas fa-sort"></i>
+                </button>
+            </div>
+        </div>
+        
+        <button class="tool-btn" data-tooltip="settings" onclick="openSettings()">
+            <i class="fas fa-cog"></i>
+        </button>
+        
+        <!-- 語言選擇器 -->
+        <div class="language-selector">
+            <button class="language-btn" onclick="toggleLanguageMenu()">
+                <i class="fas fa-globe"></i>
+                <span id="current-lang">繁體中文</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div class="language-menu" id="language-menu">
+                <a href="#" onclick="changeLanguage('zh-TW')">🇹🇼 繁體中文</a>
+                <a href="#" onclick="changeLanguage('en')">🇺🇸 English</a>
+                <a href="#" onclick="changeLanguage('zh-CN')">🇨🇳 简体中文</a>
+                <a href="#" onclick="changeLanguage('ja')">🇯🇵 日本語</a>
+                <a href="#" onclick="changeLanguage('ko')">🇰🇷 한국어</a>
+                <a href="#" onclick="changeLanguage('es')">🇪🇸 Español</a>
+                <a href="#" onclick="changeLanguage('fr')">🇫🇷 Français</a>
+                <a href="#" onclick="changeLanguage('de')">🇩🇪 Deutsch</a>
+                <a href="#" onclick="changeLanguage('pt')">🇧🇷 Português</a>
+                <a href="#" onclick="changeLanguage('ru')">🇷🇺 Русский</a>
+                <a href="#" onclick="changeLanguage('ar')">🇸🇦 العربية</a>
+                <a href="#" onclick="changeLanguage('hi')">🇮🇳 हिन्दी</a>
+                <a href="#" onclick="changeLanguage('it')">🇮🇹 Italiano</a>
+                <a href="#" onclick="changeLanguage('nl')">🇳🇱 Nederlands</a>
+                <a href="#" onclick="changeLanguage('pl')">🇵🇱 Polski</a>
+                <a href="#" onclick="changeLanguage('tr')">🇹🇷 Türkçe</a>
+                <a href="#" onclick="changeLanguage('vi')">🇻🇳 Tiếng Việt</a>
+                <a href="#" onclick="changeLanguage('th')">🇹🇭 ไทย</a>
+                <a href="#" onclick="changeLanguage('id')">🇮🇩 Bahasa Indonesia</a>
+                <a href="#" onclick="changeLanguage('sv')">🇸🇪 Svenska</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主要容器 -->
+    <div class="main-container">
+        <!-- 側邊欄 - 頁面縮圖 -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3 class="sidebar-title" data-i18n="pages">頁面</h3>
+            </div>
+            <div class="page-list" id="page-list">
+                <!-- 頁面縮圖將動態插入這裡 -->
+            </div>
+        </aside>
+        
+        <!-- 編輯區域 -->
+        <main class="editor-container">
+            <!-- 編輯器工具列 -->
+            <div class="editor-toolbar">
+                <div class="zoom-controls">
+                    <button class="zoom-btn" onclick="zoomOut()">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <span class="zoom-level" id="zoom-level">100%</span>
+                    <button class="zoom-btn" onclick="zoomIn()">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <button class="zoom-btn" onclick="fitToPage()">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+                
+                <div class="page-navigation">
+                    <button class="zoom-btn" onclick="previousPage()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span id="page-info">1 / 1</span>
+                    <button class="zoom-btn" onclick="nextPage()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Canvas 包裝器 -->
+            <div class="canvas-wrapper" id="canvas-wrapper">
+                <!-- 上傳區域 -->
+                <div class="upload-area" id="upload-area">
+                    <div class="upload-icon">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                    </div>
+                    <h2 class="upload-title" data-i18n="uploadPDF">上傳PDF檔案</h2>
+                    <p class="upload-subtitle" data-i18n="dragDropFile">拖放檔案到此處或點擊選擇檔案</p>
+                    <label for="file-input" class="upload-btn" data-i18n="selectFile">選擇檔案</label>
+                    <input type="file" id="file-input" accept=".pdf" onchange="handleFileSelect(event)">
+                </div>
+                
+                <!-- PDF Canvas -->
+                <div class="pdf-canvas-container" id="pdf-canvas-container" style="display: none;">
+                    <canvas id="pdf-canvas"></canvas>
+                    <canvas id="fabric-canvas"></canvas>
+                </div>
+                
+                <!-- 載入動畫 -->
+                <div class="loading" id="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p data-i18n="loading">正在載入PDF...</p>
+                </div>
+            </div>
+        </main>
+        
+        <!-- 屬性面板 -->
+        <aside class="properties-panel" id="properties-panel">
+            <h3 style="margin-bottom: 20px;" data-i18n="properties">屬性</h3>
+            
+            <div class="property-group">
+                <label class="property-label" data-i18n="fillColor">填充顏色</label>
+                <input type="color" class="color-picker" id="fill-color" onchange="updateObjectProperty('fill')">
+            </div>
+            
+            <div class="property-group">
+                <label class="property-label" data-i18n="strokeColor">邊框顏色</label>
+                <input type="color" class="color-picker" id="stroke-color" onchange="updateObjectProperty('stroke')">
+            </div>
+            
+            <div class="property-group">
+                <label class="property-label" data-i18n="strokeWidth">邊框寬度</label>
+                <input type="range" class="property-control" id="stroke-width" min="1" max="10" value="2" onchange="updateObjectProperty('strokeWidth')">
+            </div>
+            
+            <div class="property-group">
+                <label class="property-label" data-i18n="opacity">透明度</label>
+                <input type="range" class="property-control" id="opacity" min="0" max="100" value="100" onchange="updateObjectProperty('opacity')">
+            </div>
+            
+            <div class="property-group">
+                <label class="property-label" data-i18n="fontSize">字體大小</label>
+                <input type="number" class="property-control" id="font-size" min="8" max="72" value="16" onchange="updateObjectProperty('fontSize')">
+            </div>
+            
+            <div class="property-group">
+                <label class="property-label" data-i18n="fontFamily">字體</label>
+                <select class="property-control" id="font-family" onchange="updateObjectProperty('fontFamily')">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Helvetica">Helvetica</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- 浮動工具面板 -->
+    <div class="floating-tools">
+        <button class="floating-tool active" data-tool="select" onclick="setTool('select')" title="選擇">
+            <i class="fas fa-mouse-pointer"></i>
+        </button>
+        <button class="floating-tool" data-tool="text" onclick="setTool('text')" title="文字">
+            <i class="fas fa-font"></i>
+        </button>
+        <button class="floating-tool" data-tool="draw" onclick="setTool('draw')" title="繪圖">
+            <i class="fas fa-pencil-alt"></i>
+        </button>
+        <button class="floating-tool" data-tool="shape" onclick="setTool('shape')" title="形狀">
+            <i class="fas fa-shapes"></i>
+        </button>
+        <button class="floating-tool" data-tool="image" onclick="setTool('image')" title="圖片">
+            <i class="fas fa-image"></i>
+        </button>
+        <button class="floating-tool" data-tool="highlight" onclick="setTool('highlight')" title="螢光筆">
+            <i class="fas fa-highlighter"></i>
+        </button>
+        <button class="floating-tool" data-tool="stamp" onclick="setTool('stamp')" title="印章">
+            <i class="fas fa-stamp"></i>
+        </button>
+        <button class="floating-tool" data-tool="signature" onclick="setTool('signature')" title="簽名">
+            <i class="fas fa-signature"></i>
+        </button>
+    </div>
+    
+    <!-- 新聞廣告欄 -->
+    <div class="news-ticker" id="news-ticker">
+        <div class="news-ticker-content">
+            <span class="news-label">📢 最新消息：</span>
+            <div class="news-items" id="news-items">
+                <span class="news-item active">歡迎使用 PDF Master - 您的專業 PDF 編輯助手！</span>
+            </div>
+        </div>
+        <button class="news-close" onclick="toggleNewsTicker()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    
+    <!-- 狀態列 -->
+    <div class="status-bar">
+        <div>
+            <span id="status-message">就緒</span>
+        </div>
+        <div>
+            <span>Ctrl+Z 復原</span>
+            <span style="margin-left: 10px;">Ctrl+S 儲存</span>
+            <span style="margin-left: 10px;">Ctrl+O 開啟</span>
+        </div>
+    </div>
+    
+    <!-- 管理機器人面板 -->
+    <div class="bot-panel" id="bot-panel">
+        <div class="bot-header">
+            <i class="fas fa-robot"></i>
+            <span>PDF Bot 管理助手</span>
+            <button class="bot-minimize" onclick="toggleBotPanel()">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+        <div class="bot-body">
+            <div class="bot-section">
+                <h4>📰 新聞管理</h4>
+                <div class="bot-buttons">
+                    <button class="bot-btn" onclick="botAction('addNews')">
+                        <i class="fas fa-plus"></i> 新增新聞
+                    </button>
+                    <button class="bot-btn" onclick="botAction('editNews')">
+                        <i class="fas fa-edit"></i> 編輯新聞
+                    </button>
+                    <button class="bot-btn" onclick="botAction('deleteNews')">
+                        <i class="fas fa-trash"></i> 刪除新聞
+                    </button>
+                    <button class="bot-btn" onclick="botAction('scheduleNews')">
+                        <i class="fas fa-clock"></i> 排程發布
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bot-section">
+                <h4>📊 廣告管理</h4>
+                <div class="bot-buttons">
+                    <button class="bot-btn" onclick="botAction('addAd')">
+                        <i class="fas fa-ad"></i> 新增廣告
+                    </button>
+                    <button class="bot-btn" onclick="botAction('adStats')">
+                        <i class="fas fa-chart-bar"></i> 廣告統計
+                    </button>
+                    <button class="bot-btn" onclick="botAction('adSettings')">
+                        <i class="fas fa-cog"></i> 廣告設定
+                    </button>
+                    <button class="bot-btn" onclick="botAction('adRevenue')">
+                        <i class="fas fa-dollar-sign"></i> 收益報告
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bot-section">
+                <h4>🔧 系統功能</h4>
+                <div class="bot-buttons">
+                    <button class="bot-btn" onclick="botAction('analytics')">
+                        <i class="fas fa-analytics"></i> 數據分析
+                    </button>
+                    <button class="bot-btn" onclick="botAction('userManage')">
+                        <i class="fas fa-users"></i> 用戶管理
+                    </button>
+                    <button class="bot-btn" onclick="botAction('backup')">
+                        <i class="fas fa-database"></i> 備份還原
+                    </button>
+                    <button class="bot-btn" onclick="botAction('apiKeys')">
+                        <i class="fas fa-key"></i> API 金鑰
+                    </button>
+                </div>
+            </div>
+            
+            <div class="bot-section">
+                <h4>🤖 Bot 設定</h4>
+                <div class="bot-buttons">
+                    <button class="bot-btn" onclick="botAction('autoReply')">
+                        <i class="fas fa-reply"></i> 自動回覆
+                    </button>
+                    <button class="bot-btn" onclick="botAction('botSchedule')">
+                        <i class="fas fa-calendar"></i> 排程任務
+                    </button>
+                    <button class="bot-btn" onclick="botAction('botLogs')">
+                        <i class="fas fa-file-alt"></i> 操作日誌
+                    </button>
+                    <button class="bot-btn" onclick="botAction('botSettings')">
+                        <i class="fas fa-sliders-h"></i> Bot 設定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bot 觸發按鈕 -->
+    <button class="bot-trigger" onclick="toggleBotPanel()" title="開啟管理機器人">
+        <i class="fas fa-robot"></i>
+    </button>
+    
+    <!-- 右鍵選單 -->
+    <div class="context-menu" id="context-menu">
+        <div class="context-menu-item" onclick="contextAction('cut')">
+            <i class="fas fa-cut"></i>
+            <span data-i18n="cut">剪下</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('copy')">
+            <i class="fas fa-copy"></i>
+            <span data-i18n="copy">複製</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('paste')">
+            <i class="fas fa-paste"></i>
+            <span data-i18n="paste">貼上</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('delete')">
+            <i class="fas fa-trash"></i>
+            <span data-i18n="delete">刪除</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('bringToFront')">
+            <i class="fas fa-layer-group"></i>
+            <span data-i18n="bringToFront">移到最上層</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('sendToBack')">
+            <i class="fas fa-layer-group"></i>
+            <span data-i18n="sendToBack">移到最下層</span>
+        </div>
+    </div>
+    
+    <!-- 文字編輯器 -->
+    <div class="text-editor" id="text-editor">
+        <textarea id="text-editor-input"></textarea>
+    </div>
+    
+    <!-- 圖片上傳模態框 -->
+    <div class="modal" id="image-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span data-i18n="uploadImage">上傳圖片</span>
+            </div>
+            <div class="modal-body">
+                <div class="image-upload-area" onclick="document.getElementById('image-file-input').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p data-i18n="dragDropImage">拖放圖片到此處或點擊選擇</p>
+                    <input type="file" id="image-file-input" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('image-modal')" data-i18n="cancel">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 印章選擇模態框 -->
+    <div class="modal" id="stamp-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span data-i18n="selectStamp">選擇印章</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;">
+                    <div class="stamp-preview" onclick="addStamp('approved')">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#4CAF50" stroke-width="3"/>
+                            <text x="50" y="40" text-anchor="middle" fill="#4CAF50" font-size="16" font-weight="bold">APPROVED</text>
+                            <text x="50" y="60" text-anchor="middle" fill="#4CAF50" font-size="12">已批准</text>
+                        </svg>
+                    </div>
+                    <div class="stamp-preview" onclick="addStamp('rejected')">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#F44336" stroke-width="3"/>
+                            <text x="50" y="40" text-anchor="middle" fill="#F44336" font-size="16" font-weight="bold">REJECTED</text>
+                            <text x="50" y="60" text-anchor="middle" fill="#F44336" font-size="12">已拒絕</text>
+                        </svg>
+                    </div>
+                    <div class="stamp-preview" onclick="addStamp('confidential')">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <rect x="10" y="30" width="80" height="40" fill="none" stroke="#FF9800" stroke-width="3"/>
+                            <text x="50" y="55" text-anchor="middle" fill="#FF9800" font-size="14" font-weight="bold">CONFIDENTIAL</text>
+                        </svg>
+                    </div>
+                    <div class="stamp-preview" onclick="addStamp('copy')">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <rect x="10" y="30" width="80" height="40" fill="none" stroke="#2196F3" stroke-width="3" transform="rotate(-15 50 50)"/>
+                            <text x="50" y="55" text-anchor="middle" fill="#2196F3" font-size="18" font-weight="bold" transform="rotate(-15 50 50)">COPY</text>
+                        </svg>
+                    </div>
+                    <div class="stamp-preview" onclick="addStamp('urgent')">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <polygon points="50,10 90,80 10,80" fill="none" stroke="#F44336" stroke-width="3"/>
+                            <text x="50" y="60" text-anchor="middle" fill="#F44336" font-size="16" font-weight="bold">URGENT</text>
+                        </svg>
+                    </div>
+                    <div class="stamp-preview" onclick="addStamp('paid')">
+                        <svg width="80" height="80" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#4CAF50" stroke-width="3"/>
+                            <text x="50" y="40" text-anchor="middle" fill="#4CAF50" font-size="20" font-weight="bold">PAID</text>
+                            <text x="50" y="60" text-anchor="middle" fill="#4CAF50" font-size="12">已付款</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('stamp-modal')" data-i18n="cancel">取消</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 簽名模態框 -->
+    <div class="modal" id="signature-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span data-i18n="drawSignature">繪製簽名</span>
+            </div>
+            <div class="modal-body">
+                <canvas id="signature-canvas" class="signature-pad" width="400" height="200"></canvas>
+                <div class="signature-controls">
+                    <button class="btn btn-secondary" onclick="clearSignature()" data-i18n="clear">清除</button>
+                    <input type="color" id="signature-color" value="#000000">
+                    <input type="range" id="signature-width" min="1" max="10" value="2">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('signature-modal')" data-i18n="cancel">取消</button>
+                <button class="btn btn-primary" onclick="saveSignature()" data-i18n="save">儲存</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 新聞管理模態框 -->
+    <div class="modal" id="news-management-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="news-modal-title">新增新聞</span>
+            </div>
+            <div class="modal-body">
+                <form class="news-form" id="news-form">
+                    <input type="text" id="news-title" placeholder="新聞標題" required>
+                    <textarea id="news-content" placeholder="新聞內容" required></textarea>
+                    <input type="url" id="news-link" placeholder="連結 (選填)">
+                    <input type="datetime-local" id="news-schedule" placeholder="排程時間">
+                    <select id="news-priority">
+                        <option value="normal">一般</option>
+                        <option value="important">重要</option>
+                        <option value="urgent">緊急</option>
+                    </select>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('news-management-modal')">取消</button>
+                <button class="btn btn-primary" onclick="saveNews()">儲存</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 廣告管理模態框 -->
+    <div class="modal" id="ad-management-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span>廣告管理</span>
+            </div>
+            <div class="modal-body">
+                <form class="news-form" id="ad-form">
+                    <input type="text" id="ad-title" placeholder="廣告標題" required>
+                    <textarea id="ad-description" placeholder="廣告描述" required></textarea>
+                    <input type="url" id="ad-image" placeholder="圖片網址">
+                    <input type="url" id="ad-link" placeholder="點擊連結" required>
+                    <select id="ad-position">
+                        <option value="top">頂部橫幅</option>
+                        <option value="bottom">底部橫幅</option>
+                        <option value="sidebar">側邊欄</option>
+                        <option value="popup">彈出視窗</option>
+                    </select>
+                    <input type="number" id="ad-duration" placeholder="顯示時長(秒)" min="1" value="30">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('ad-management-modal')">取消</button>
+                <button class="btn btn-primary" onclick="saveAd()">儲存</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 廣告橫幅 -->
+    <div class="ad-banner" id="ad-banner">
+        <div class="ad-banner-content">
+            <i class="fas fa-ad" style="font-size: 24px; color: var(--primary);"></i>
+            <div>
+                <strong id="ad-banner-title">限時優惠！</strong>
+                <span id="ad-banner-text">升級到專業版享受更多功能</span>
+            </div>
+        </div>
+        <button class="ad-banner-close" onclick="closeAdBanner()">關閉</button>
+    </div>
+
+    <script>
+        // PDF.js 全域設定
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        // 多語言翻譯系統
+        const translations = {
+            'zh-TW': {
+                appName: 'PDF Master',
+                openFile: '開啟檔案',
+                save: '儲存',
+                export: '匯出',
+                undo: '復原',
+                redo: '重做',
+                cut: '剪下',
+                copy: '複製',
+                paste: '貼上',
+                addPage: '新增頁面',
+                deletePage: '刪除頁面',
+                reorderPages: '頁面順序',
+                settings: '設定',
+                pages: '頁面',
+                uploadPDF: '上傳PDF檔案',
+                dragDropFile: '拖放檔案到此處或點擊選擇檔案',
+                selectFile: '選擇檔案',
+                loading: '正在載入PDF...',
+                properties: '屬性',
+                fillColor: '填充顏色',
+                strokeColor: '邊框顏色',
+                strokeWidth: '邊框寬度',
+                opacity: '透明度',
+                fontSize: '字體大小',
+                fontFamily: '字體',
+                select: '選擇',
+                text: '文字',
+                draw: '繪圖',
+                shape: '形狀',
+                image: '圖片',
+                highlight: '螢光筆',
+                stamp: '印章',
+                signature: '簽名',
+                uploadImage: '上傳圖片',
+                dragDropImage: '拖放圖片到此處或點擊選擇',
+                selectStamp: '選擇印章',
+                drawSignature: '繪製簽名',
+                clear: '清除',
+                cancel: '取消',
+                ok: '確定',
+                delete: '刪除',
+                bringToFront: '移到最上層',
+                sendToBack: '移到最下層',
+                ready: '就緒',
+                page: '第',
+                pageOf: '頁'
+            },
+            'en': {
+                appName: 'PDF Master',
+                openFile: 'Open File',
+                save: 'Save',
+                export: 'Export',
+                undo: 'Undo',
+                redo: 'Redo',
+                cut: 'Cut',
+                copy: 'Copy',
+                paste: 'Paste',
+                addPage: 'Add Page',
+                deletePage: 'Delete Page',
+                reorderPages: 'Reorder Pages',
+                settings: 'Settings',
+                pages: 'Pages',
+                uploadPDF: 'Upload PDF File',
+                dragDropFile: 'Drag and drop file here or click to select',
+                selectFile: 'Select File',
+                loading: 'Loading PDF...',
+                properties: 'Properties',
+                fillColor: 'Fill Color',
+                strokeColor: 'Stroke Color',
+                strokeWidth: 'Stroke Width',
+                opacity: 'Opacity',
+                fontSize: 'Font Size',
+                fontFamily: 'Font Family',
+                select: 'Select',
+                text: 'Text',
+                draw: 'Draw',
+                shape: 'Shape',
+                image: 'Image',
+                highlight: 'Highlight',
+                stamp: 'Stamp',
+                signature: 'Signature',
+                uploadImage: 'Upload Image',
+                dragDropImage: 'Drag and drop image here or click to select',
+                selectStamp: 'Select Stamp',
+                drawSignature: 'Draw Signature',
+                clear: 'Clear',
+                cancel: 'Cancel',
+                ok: 'OK',
+                delete: 'Delete',
+                bringToFront: 'Bring to Front',
+                sendToBack: 'Send to Back',
+                ready: 'Ready',
+                page: 'Page',
+                pageOf: 'of'
+            },
+            'zh-CN': {
+                appName: 'PDF Master',
+                openFile: '打开文件',
+                save: '保存',
+                export: '导出',
+                undo: '撤销',
+                redo: '重做',
+                cut: '剪切',
+                copy: '复制',
+                paste: '粘贴',
+                addPage: '添加页面',
+                deletePage: '删除页面',
+                reorderPages: '页面顺序',
+                settings: '设置',
+                pages: '页面',
+                uploadPDF: '上传PDF文件',
+                dragDropFile: '拖放文件到此处或点击选择文件',
+                selectFile: '选择文件',
+                loading: '正在加载PDF...',
+                properties: '属性',
+                fillColor: '填充颜色',
+                strokeColor: '边框颜色',
+                strokeWidth: '边框宽度',
+                opacity: '透明度',
+                fontSize: '字体大小',
+                fontFamily: '字体',
+                select: '选择',
+                text: '文字',
+                draw: '绘图',
+                shape: '形状',
+                image: '图片',
+                highlight: '荧光笔',
+                stamp: '印章',
+                signature: '签名',
+                uploadImage: '上传图片',
+                dragDropImage: '拖放图片到此处或点击选择',
+                selectStamp: '选择印章',
+                drawSignature: '绘制签名',
+                clear: '清除',
+                cancel: '取消',
+                ok: '确定',
+                delete: '删除',
+                bringToFront: '移到最上层',
+                sendToBack: '移到最下层',
+                ready: '就绪',
+                page: '第',
+                pageOf: '页'
+            },
+            'ja': {
+                appName: 'PDF Master',
+                openFile: 'ファイルを開く',
+                save: '保存',
+                export: 'エクスポート',
+                undo: '元に戻す',
+                redo: 'やり直し',
+                cut: '切り取り',
+                copy: 'コピー',
+                paste: '貼り付け',
+                addPage: 'ページを追加',
+                deletePage: 'ページを削除',
+                reorderPages: 'ページの順序',
+                settings: '設定',
+                pages: 'ページ',
+                uploadPDF: 'PDFファイルをアップロード',
+                dragDropFile: 'ここにファイルをドラッグ＆ドロップまたはクリックして選択',
+                selectFile: 'ファイルを選択',
+                loading: 'PDFを読み込み中...',
+                properties: 'プロパティ',
+                fillColor: '塗りつぶし色',
+                strokeColor: '線の色',
+                strokeWidth: '線の幅',
+                opacity: '不透明度',
+                fontSize: 'フォントサイズ',
+                fontFamily: 'フォント',
+                select: '選択',
+                text: 'テキスト',
+                draw: '描画',
+                shape: '図形',
+                image: '画像',
+                highlight: '蛍光ペン',
+                stamp: 'スタンプ',
+                signature: '署名',
+                uploadImage: '画像をアップロード',
+                dragDropImage: 'ここに画像をドラッグ＆ドロップまたはクリックして選択',
+                selectStamp: 'スタンプを選択',
+                drawSignature: '署名を描く',
+                clear: 'クリア',
+                cancel: 'キャンセル',
+                ok: 'OK',
+                delete: '削除',
+                bringToFront: '最前面へ',
+                sendToBack: '最背面へ',
+                ready: '準備完了',
+                page: 'ページ',
+                pageOf: '/'
+            },
+            'ko': {
+                appName: 'PDF Master',
+                openFile: '파일 열기',
+                save: '저장',
+                export: '내보내기',
+                undo: '실행 취소',
+                redo: '다시 실행',
+                cut: '잘라내기',
+                copy: '복사',
+                paste: '붙여넣기',
+                addPage: '페이지 추가',
+                deletePage: '페이지 삭제',
+                reorderPages: '페이지 순서',
+                settings: '설정',
+                pages: '페이지',
+                uploadPDF: 'PDF 파일 업로드',
+                dragDropFile: '여기에 파일을 드래그 앤 드롭하거나 클릭하여 선택',
+                selectFile: '파일 선택',
+                loading: 'PDF 로딩 중...',
+                properties: '속성',
+                fillColor: '채우기 색상',
+                strokeColor: '테두리 색상',
+                strokeWidth: '테두리 너비',
+                opacity: '불투명도',
+                fontSize: '글꼴 크기',
+                fontFamily: '글꼴',
+                select: '선택',
+                text: '텍스트',
+                draw: '그리기',
+                shape: '도형',
+                image: '이미지',
+                highlight: '형광펜',
+                stamp: '스탬프',
+                signature: '서명',
+                uploadImage: '이미지 업로드',
+                dragDropImage: '여기에 이미지를 드래그 앤 드롭하거나 클릭하여 선택',
+                selectStamp: '스탬프 선택',
+                drawSignature: '서명 그리기',
+                clear: '지우기',
+                cancel: '취소',
+                ok: '확인',
+                delete: '삭제',
+                bringToFront: '맨 앞으로',
+                sendToBack: '맨 뒤로',
+                ready: '준비',
+                page: '페이지',
+                pageOf: '/'
+            },
+            'es': {
+                appName: 'PDF Master',
+                openFile: 'Abrir archivo',
+                save: 'Guardar',
+                export: 'Exportar',
+                undo: 'Deshacer',
+                redo: 'Rehacer',
+                cut: 'Cortar',
+                copy: 'Copiar',
+                paste: 'Pegar',
+                addPage: 'Añadir página',
+                deletePage: 'Eliminar página',
+                reorderPages: 'Ordenar páginas',
+                settings: 'Configuración',
+                pages: 'Páginas',
+                uploadPDF: 'Subir archivo PDF',
+                dragDropFile: 'Arrastra y suelta el archivo aquí o haz clic para seleccionar',
+                selectFile: 'Seleccionar archivo',
+                loading: 'Cargando PDF...',
+                properties: 'Propiedades',
+                fillColor: 'Color de relleno',
+                strokeColor: 'Color del borde',
+                strokeWidth: 'Ancho del borde',
+                opacity: 'Opacidad',
+                fontSize: 'Tamaño de fuente',
+                fontFamily: 'Fuente',
+                select: 'Seleccionar',
+                text: 'Texto',
+                draw: 'Dibujar',
+                shape: 'Forma',
+                image: 'Imagen',
+                highlight: 'Resaltador',
+                stamp: 'Sello',
+                signature: 'Firma',
+                uploadImage: 'Subir imagen',
+                dragDropImage: 'Arrastra y suelta la imagen aquí o haz clic para seleccionar',
+                selectStamp: 'Seleccionar sello',
+                drawSignature: 'Dibujar firma',
+                clear: 'Limpiar',
+                cancel: 'Cancelar',
+                ok: 'Aceptar',
+                delete: 'Eliminar',
+                bringToFront: 'Traer al frente',
+                sendToBack: 'Enviar atrás',
+                ready: 'Listo',
+                page: 'Página',
+                pageOf: 'de'
+            },
+            'fr': {
+                appName: 'PDF Master',
+                openFile: 'Ouvrir le fichier',
+                save: 'Enregistrer',
+                export: 'Exporter',
+                undo: 'Annuler',
+                redo: 'Rétablir',
+                cut: 'Couper',
+                copy: 'Copier',
+                paste: 'Coller',
+                addPage: 'Ajouter une page',
+                deletePage: 'Supprimer la page',
+                reorderPages: 'Ordre des pages',
+                settings: 'Paramètres',
+                pages: 'Pages',
+                uploadPDF: 'Télécharger un fichier PDF',
+                dragDropFile: 'Glissez-déposez le fichier ici ou cliquez pour sélectionner',
+                selectFile: 'Sélectionner un fichier',
+                loading: 'Chargement du PDF...',
+                properties: 'Propriétés',
+                fillColor: 'Couleur de remplissage',
+                strokeColor: 'Couleur du contour',
+                strokeWidth: 'Largeur du contour',
+                opacity: 'Opacité',
+                fontSize: 'Taille de police',
+                fontFamily: 'Police',
+                select: 'Sélectionner',
+                text: 'Texte',
+                draw: 'Dessiner',
+                shape: 'Forme',
+                image: 'Image',
+                highlight: 'Surligneur',
+                stamp: 'Tampon',
+                signature: 'Signature',
+                uploadImage: 'Télécharger une image',
+                dragDropImage: 'Glissez-déposez l\'image ici ou cliquez pour sélectionner',
+                selectStamp: 'Sélectionner un tampon',
+                drawSignature: 'Dessiner la signature',
+                clear: 'Effacer',
+                cancel: 'Annuler',
+                ok: 'OK',
+                delete: 'Supprimer',
+                bringToFront: 'Mettre au premier plan',
+                sendToBack: 'Mettre à l\'arrière-plan',
+                ready: 'Prêt',
+                page: 'Page',
+                pageOf: 'sur'
+            },
+            'de': {
+                appName: 'PDF Master',
+                openFile: 'Datei öffnen',
+                save: 'Speichern',
+                export: 'Exportieren',
+                undo: 'Rückgängig',
+                redo: 'Wiederholen',
+                cut: 'Ausschneiden',
+                copy: 'Kopieren',
+                paste: 'Einfügen',
+                addPage: 'Seite hinzufügen',
+                deletePage: 'Seite löschen',
+                reorderPages: 'Seitenreihenfolge',
+                settings: 'Einstellungen',
+                pages: 'Seiten',
+                uploadPDF: 'PDF-Datei hochladen',
+                dragDropFile: 'Datei hier ablegen oder klicken zum Auswählen',
+                selectFile: 'Datei auswählen',
+                loading: 'PDF wird geladen...',
+                properties: 'Eigenschaften',
+                fillColor: 'Füllfarbe',
+                strokeColor: 'Rahmenfarbe',
+                strokeWidth: 'Rahmenbreite',
+                opacity: 'Deckkraft',
+                fontSize: 'Schriftgröße',
+                fontFamily: 'Schriftart',
+                select: 'Auswählen',
+                text: 'Text',
+                draw: 'Zeichnen',
+                shape: 'Form',
+                image: 'Bild',
+                highlight: 'Textmarker',
+                stamp: 'Stempel',
+                signature: 'Unterschrift',
+                uploadImage: 'Bild hochladen',
+                dragDropImage: 'Bild hier ablegen oder klicken zum Auswählen',
+                selectStamp: 'Stempel auswählen',
+                drawSignature: 'Unterschrift zeichnen',
+                clear: 'Löschen',
+                cancel: 'Abbrechen',
+                ok: 'OK',
+                delete: 'Löschen',
+                bringToFront: 'In den Vordergrund',
+                sendToBack: 'In den Hintergrund',
+                ready: 'Bereit',
+                page: 'Seite',
+                pageOf: 'von'
+            },
+            'pt': {
+                appName: 'PDF Master',
+                openFile: 'Abrir arquivo',
+                save: 'Salvar',
+                export: 'Exportar',
+                undo: 'Desfazer',
+                redo: 'Refazer',
+                cut: 'Recortar',
+                copy: 'Copiar',
+                paste: 'Colar',
+                addPage: 'Adicionar página',
+                deletePage: 'Excluir página',
+                reorderPages: 'Ordem das páginas',
+                settings: 'Configurações',
+                pages: 'Páginas',
+                uploadPDF: 'Carregar arquivo PDF',
+                dragDropFile: 'Arraste e solte o arquivo aqui ou clique para selecionar',
+                selectFile: 'Selecionar arquivo',
+                loading: 'Carregando PDF...',
+                properties: 'Propriedades',
+                fillColor: 'Cor de preenchimento',
+                strokeColor: 'Cor da borda',
+                strokeWidth: 'Largura da borda',
+                opacity: 'Opacidade',
+                fontSize: 'Tamanho da fonte',
+                fontFamily: 'Fonte',
+                select: 'Selecionar',
+                text: 'Texto',
+                draw: 'Desenhar',
+                shape: 'Forma',
+                image: 'Imagem',
+                highlight: 'Marcador',
+                stamp: 'Carimbo',
+                signature: 'Assinatura',
+                uploadImage: 'Carregar imagem',
+                dragDropImage: 'Arraste e solte a imagem aqui ou clique para selecionar',
+                selectStamp: 'Selecionar carimbo',
+                drawSignature: 'Desenhar assinatura',
+                clear: 'Limpar',
+                cancel: 'Cancelar',
+                ok: 'OK',
+                delete: 'Excluir',
+                bringToFront: 'Trazer para frente',
+                sendToBack: 'Enviar para trás',
+                ready: 'Pronto',
+                page: 'Página',
+                pageOf: 'de'
+            },
+            'ru': {
+                appName: 'PDF Master',
+                openFile: 'Открыть файл',
+                save: 'Сохранить',
+                export: 'Экспорт',
+                undo: 'Отменить',
+                redo: 'Повторить',
+                cut: 'Вырезать',
+                copy: 'Копировать',
+                paste: 'Вставить',
+                addPage: 'Добавить страницу',
+                deletePage: 'Удалить страницу',
+                reorderPages: 'Порядок страниц',
+                settings: 'Настройки',
+                pages: 'Страницы',
+                uploadPDF: 'Загрузить PDF файл',
+                dragDropFile: 'Перетащите файл сюда или нажмите для выбора',
+                selectFile: 'Выбрать файл',
+                loading: 'Загрузка PDF...',
+                properties: 'Свойства',
+                fillColor: 'Цвет заливки',
+                strokeColor: 'Цвет границы',
+                strokeWidth: 'Ширина границы',
+                opacity: 'Прозрачность',
+                fontSize: 'Размер шрифта',
+                fontFamily: 'Шрифт',
+                select: 'Выбрать',
+                text: 'Текст',
+                draw: 'Рисовать',
+                shape: 'Фигура',
+                image: 'Изображение',
+                highlight: 'Маркер',
+                stamp: 'Штамп',
+                signature: 'Подпись',
+                uploadImage: 'Загрузить изображение',
+                dragDropImage: 'Перетащите изображение сюда или нажмите для выбора',
+                selectStamp: 'Выбрать штамп',
+                drawSignature: 'Нарисовать подпись',
+                clear: 'Очистить',
+                cancel: 'Отмена',
+                ok: 'ОК',
+                delete: 'Удалить',
+                bringToFront: 'На передний план',
+                sendToBack: 'На задний план',
+                ready: 'Готово',
+                page: 'Страница',
+                pageOf: 'из'
+            },
+            'ar': {
+                appName: 'PDF Master',
+                openFile: 'فتح ملف',
+                save: 'حفظ',
+                export: 'تصدير',
+                undo: 'تراجع',
+                redo: 'إعادة',
+                cut: 'قص',
+                copy: 'نسخ',
+                paste: 'لصق',
+                addPage: 'إضافة صفحة',
+                deletePage: 'حذف صفحة',
+                reorderPages: 'ترتيب الصفحات',
+                settings: 'الإعدادات',
+                pages: 'الصفحات',
+                uploadPDF: 'تحميل ملف PDF',
+                dragDropFile: 'اسحب وأفلت الملف هنا أو انقر للاختيار',
+                selectFile: 'اختر ملف',
+                loading: 'جاري تحميل PDF...',
+                properties: 'الخصائص',
+                fillColor: 'لون التعبئة',
+                strokeColor: 'لون الحدود',
+                strokeWidth: 'عرض الحدود',
+                opacity: 'الشفافية',
+                fontSize: 'حجم الخط',
+                fontFamily: 'الخط',
+                select: 'تحديد',
+                text: 'نص',
+                draw: 'رسم',
+                shape: 'شكل',
+                image: 'صورة',
+                highlight: 'تمييز',
+                stamp: 'ختم',
+                signature: 'توقيع',
+                uploadImage: 'تحميل صورة',
+                dragDropImage: 'اسحب وأفلت الصورة هنا أو انقر للاختيار',
+                selectStamp: 'اختر ختم',
+                drawSignature: 'رسم التوقيع',
+                clear: 'مسح',
+                cancel: 'إلغاء',
+                ok: 'موافق',
+                delete: 'حذف',
+                bringToFront: 'إحضار للأمام',
+                sendToBack: 'إرسال للخلف',
+                ready: 'جاهز',
+                page: 'صفحة',
+                pageOf: 'من'
+            },
+            'hi': { // 印地語
+                appName: 'PDF Master',
+                openFile: 'फ़ाइल खोलें',
+                save: 'सहेजें',
+                export: 'निर्यात',
+                undo: 'पूर्ववत करें',
+                redo: 'फिर से करें',
+                cut: 'काटें',
+                copy: 'कॉपी',
+                paste: 'पेस्ट',
+                addPage: 'पृष्ठ जोड़ें',
+                deletePage: 'पृष्ठ हटाएं',
+                reorderPages: 'पृष्ठ क्रम',
+                settings: 'सेटिंग्स',
+                pages: 'पृष्ठ',
+                uploadPDF: 'PDF अपलोड करें',
+                dragDropFile: 'फ़ाइल यहाँ खींचें या चुनने के लिए क्लिक करें',
+                selectFile: 'फ़ाइल चुनें',
+                loading: 'PDF लोड हो रहा है...',
+                properties: 'गुण',
+                fillColor: 'भरने का रंग',
+                strokeColor: 'बॉर्डर रंग',
+                strokeWidth: 'बॉर्डर चौड़ाई',
+                opacity: 'पारदर्शिता',
+                fontSize: 'फ़ॉन्ट आकार',
+                fontFamily: 'फ़ॉन्ट',
+                select: 'चुनें',
+                text: 'टेक्स्ट',
+                draw: 'ड्रॉ',
+                shape: 'आकार',
+                image: 'छवि',
+                highlight: 'हाइलाइट',
+                stamp: 'स्टैम्प',
+                signature: 'हस्ताक्षर',
+                ready: 'तैयार',
+                page: 'पृष्ठ',
+                pageOf: 'का'
+            },
+            'it': { // 義大利語
+                appName: 'PDF Master',
+                openFile: 'Apri file',
+                save: 'Salva',
+                export: 'Esporta',
+                undo: 'Annulla',
+                redo: 'Ripeti',
+                cut: 'Taglia',
+                copy: 'Copia',
+                paste: 'Incolla',
+                addPage: 'Aggiungi pagina',
+                deletePage: 'Elimina pagina',
+                reorderPages: 'Riordina pagine',
+                settings: 'Impostazioni',
+                pages: 'Pagine',
+                uploadPDF: 'Carica file PDF',
+                dragDropFile: 'Trascina il file qui o clicca per selezionare',
+                selectFile: 'Seleziona file',
+                loading: 'Caricamento PDF...',
+                properties: 'Proprietà',
+                fillColor: 'Colore di riempimento',
+                strokeColor: 'Colore bordo',
+                strokeWidth: 'Larghezza bordo',
+                opacity: 'Opacità',
+                fontSize: 'Dimensione carattere',
+                fontFamily: 'Carattere',
+                select: 'Seleziona',
+                text: 'Testo',
+                draw: 'Disegna',
+                shape: 'Forma',
+                image: 'Immagine',
+                highlight: 'Evidenzia',
+                stamp: 'Timbro',
+                signature: 'Firma',
+                ready: 'Pronto',
+                page: 'Pagina',
+                pageOf: 'di'
+            },
+            'nl': { // 荷蘭語
+                appName: 'PDF Master',
+                openFile: 'Bestand openen',
+                save: 'Opslaan',
+                export: 'Exporteren',
+                undo: 'Ongedaan maken',
+                redo: 'Opnieuw',
+                cut: 'Knippen',
+                copy: 'Kopiëren',
+                paste: 'Plakken',
+                addPage: 'Pagina toevoegen',
+                deletePage: 'Pagina verwijderen',
+                reorderPages: 'Pagina volgorde',
+                settings: 'Instellingen',
+                pages: 'Pagina\'s',
+                uploadPDF: 'PDF uploaden',
+                dragDropFile: 'Sleep bestand hier of klik om te selecteren',
+                selectFile: 'Bestand selecteren',
+                loading: 'PDF laden...',
+                properties: 'Eigenschappen',
+                fillColor: 'Vulkleur',
+                strokeColor: 'Randkleur',
+                strokeWidth: 'Randbreedte',
+                opacity: 'Transparantie',
+                fontSize: 'Lettergrootte',
+                fontFamily: 'Lettertype',
+                select: 'Selecteren',
+                text: 'Tekst',
+                draw: 'Tekenen',
+                shape: 'Vorm',
+                image: 'Afbeelding',
+                highlight: 'Markeren',
+                stamp: 'Stempel',
+                signature: 'Handtekening',
+                ready: 'Gereed',
+                page: 'Pagina',
+                pageOf: 'van'
+            },
+            'pl': { // 波蘭語
+                appName: 'PDF Master',
+                openFile: 'Otwórz plik',
+                save: 'Zapisz',
+                export: 'Eksportuj',
+                undo: 'Cofnij',
+                redo: 'Ponów',
+                cut: 'Wytnij',
+                copy: 'Kopiuj',
+                paste: 'Wklej',
+                addPage: 'Dodaj stronę',
+                deletePage: 'Usuń stronę',
+                reorderPages: 'Kolejność stron',
+                settings: 'Ustawienia',
+                pages: 'Strony',
+                uploadPDF: 'Prześlij plik PDF',
+                dragDropFile: 'Przeciągnij plik tutaj lub kliknij aby wybrać',
+                selectFile: 'Wybierz plik',
+                loading: 'Ładowanie PDF...',
+                properties: 'Właściwości',
+                fillColor: 'Kolor wypełnienia',
+                strokeColor: 'Kolor obramowania',
+                strokeWidth: 'Szerokość obramowania',
+                opacity: 'Przezroczystość',
+                fontSize: 'Rozmiar czcionki',
+                fontFamily: 'Czcionka',
+                select: 'Wybierz',
+                text: 'Tekst',
+                draw: 'Rysuj',
+                shape: 'Kształt',
+                image: 'Obraz',
+                highlight: 'Zaznacz',
+                stamp: 'Pieczątka',
+                signature: 'Podpis',
+                ready: 'Gotowe',
+                page: 'Strona',
+                pageOf: 'z'
+            },
+            'tr': { // 土耳其語
+                appName: 'PDF Master',
+                openFile: 'Dosya Aç',
+                save: 'Kaydet',
+                export: 'Dışa Aktar',
+                undo: 'Geri Al',
+                redo: 'Yinele',
+                cut: 'Kes',
+                copy: 'Kopyala',
+                paste: 'Yapıştır',
+                addPage: 'Sayfa Ekle',
+                deletePage: 'Sayfa Sil',
+                reorderPages: 'Sayfa Sırası',
+                settings: 'Ayarlar',
+                pages: 'Sayfalar',
+                uploadPDF: 'PDF Yükle',
+                dragDropFile: 'Dosyayı buraya sürükleyin veya seçmek için tıklayın',
+                selectFile: 'Dosya Seç',
+                loading: 'PDF yükleniyor...',
+                properties: 'Özellikler',
+                fillColor: 'Dolgu Rengi',
+                strokeColor: 'Kenarlık Rengi',
+                strokeWidth: 'Kenarlık Genişliği',
+                opacity: 'Şeffaflık',
+                fontSize: 'Yazı Boyutu',
+                fontFamily: 'Yazı Tipi',
+                select: 'Seç',
+                text: 'Metin',
+                draw: 'Çiz',
+                shape: 'Şekil',
+                image: 'Resim',
+                highlight: 'Vurgula',
+                stamp: 'Damga',
+                signature: 'İmza',
+                ready: 'Hazır',
+                page: 'Sayfa',
+                pageOf: '/'
+            },
+            'vi': { // 越南語
+                appName: 'PDF Master',
+                openFile: 'Mở tệp',
+                save: 'Lưu',
+                export: 'Xuất',
+                undo: 'Hoàn tác',
+                redo: 'Làm lại',
+                cut: 'Cắt',
+                copy: 'Sao chép',
+                paste: 'Dán',
+                addPage: 'Thêm trang',
+                deletePage: 'Xóa trang',
+                reorderPages: 'Sắp xếp trang',
+                settings: 'Cài đặt',
+                pages: 'Trang',
+                uploadPDF: 'Tải lên PDF',
+                dragDropFile: 'Kéo thả tệp vào đây hoặc nhấp để chọn',
+                selectFile: 'Chọn tệp',
+                loading: 'Đang tải PDF...',
+                properties: 'Thuộc tính',
+                fillColor: 'Màu tô',
+                strokeColor: 'Màu viền',
+                strokeWidth: 'Độ rộng viền',
+                opacity: 'Độ trong suốt',
+                fontSize: 'Cỡ chữ',
+                fontFamily: 'Phông chữ',
+                select: 'Chọn',
+                text: 'Văn bản',
+                draw: 'Vẽ',
+                shape: 'Hình dạng',
+                image: 'Hình ảnh',
+                highlight: 'Đánh dấu',
+                stamp: 'Con dấu',
+                signature: 'Chữ ký',
+                ready: 'Sẵn sàng',
+                page: 'Trang',
+                pageOf: 'của'
+            },
+            'th': { // 泰語
+                appName: 'PDF Master',
+                openFile: 'เปิดไฟล์',
+                save: 'บันทึก',
+                export: 'ส่งออก',
+                undo: 'เลิกทำ',
+                redo: 'ทำซ้ำ',
+                cut: 'ตัด',
+                copy: 'คัดลอก',
+                paste: 'วาง',
+                addPage: 'เพิ่มหน้า',
+                deletePage: 'ลบหน้า',
+                reorderPages: 'จัดเรียงหน้า',
+                settings: 'การตั้งค่า',
+                pages: 'หน้า',
+                uploadPDF: 'อัปโหลด PDF',
+                dragDropFile: 'ลากไฟล์มาที่นี่หรือคลิกเพื่อเลือก',
+                selectFile: 'เลือกไฟล์',
+                loading: 'กำลังโหลด PDF...',
+                properties: 'คุณสมบัติ',
+                fillColor: 'สีเติม',
+                strokeColor: 'สีขอบ',
+                strokeWidth: 'ความกว้างขอบ',
+                opacity: 'ความโปร่งใส',
+                fontSize: 'ขนาดตัวอักษร',
+                fontFamily: 'แบบอักษร',
+                select: 'เลือก',
+                text: 'ข้อความ',
+                draw: 'วาด',
+                shape: 'รูปร่าง',
+                image: 'รูปภาพ',
+                highlight: 'ไฮไลต์',
+                stamp: 'ตราประทับ',
+                signature: 'ลายเซ็น',
+                ready: 'พร้อม',
+                page: 'หน้า',
+                pageOf: 'จาก'
+            },
+            'id': { // 印尼語
+                appName: 'PDF Master',
+                openFile: 'Buka File',
+                save: 'Simpan',
+                export: 'Ekspor',
+                undo: 'Batalkan',
+                redo: 'Ulangi',
+                cut: 'Potong',
+                copy: 'Salin',
+                paste: 'Tempel',
+                addPage: 'Tambah Halaman',
+                deletePage: 'Hapus Halaman',
+                reorderPages: 'Urutan Halaman',
+                settings: 'Pengaturan',
+                pages: 'Halaman',
+                uploadPDF: 'Unggah PDF',
+                dragDropFile: 'Seret file ke sini atau klik untuk memilih',
+                selectFile: 'Pilih File',
+                loading: 'Memuat PDF...',
+                properties: 'Properti',
+                fillColor: 'Warna Isi',
+                strokeColor: 'Warna Batas',
+                strokeWidth: 'Lebar Batas',
+                opacity: 'Transparansi',
+                fontSize: 'Ukuran Font',
+                fontFamily: 'Jenis Font',
+                select: 'Pilih',
+                text: 'Teks',
+                draw: 'Gambar',
+                shape: 'Bentuk',
+                image: 'Gambar',
+                highlight: 'Sorot',
+                stamp: 'Stempel',
+                signature: 'Tanda Tangan',
+                ready: 'Siap',
+                page: 'Halaman',
+                pageOf: 'dari'
+            },
+            'sv': { // 瑞典語
+                appName: 'PDF Master',
+                openFile: 'Öppna fil',
+                save: 'Spara',
+                export: 'Exportera',
+                undo: 'Ångra',
+                redo: 'Gör om',
+                cut: 'Klipp ut',
+                copy: 'Kopiera',
+                paste: 'Klistra in',
+                addPage: 'Lägg till sida',
+                deletePage: 'Ta bort sida',
+                reorderPages: 'Sidordning',
+                settings: 'Inställningar',
+                pages: 'Sidor',
+                uploadPDF: 'Ladda upp PDF',
+                dragDropFile: 'Dra filen hit eller klicka för att välja',
+                selectFile: 'Välj fil',
+                loading: 'Laddar PDF...',
+                properties: 'Egenskaper',
+                fillColor: 'Fyllnadsfärg',
+                strokeColor: 'Kantfärg',
+                strokeWidth: 'Kantbredd',
+                opacity: 'Genomskinlighet',
+                fontSize: 'Teckenstorlek',
+                fontFamily: 'Teckensnitt',
+                select: 'Välj',
+                text: 'Text',
+                draw: 'Rita',
+                shape: 'Form',
+                image: 'Bild',
+                highlight: 'Markera',
+                stamp: 'Stämpel',
+                signature: 'Signatur',
+                ready: 'Redo',
+                page: 'Sida',
+                pageOf: 'av'
+            }
+        };
+        
+        // 應用程式狀態管理
+        const AppState = {
+            pdfDoc: null,
+            currentPage: 1,
+            totalPages: 0,
+            scale: 1.0,
+            canvas: null,
+            fabricCanvas: null,
+            currentTool: 'select',
+            isDrawing: false,
+            history: [],
+            historyIndex: -1,
+            clipboard: null,
+            selectedObject: null,
+            pages: {},
+            modifications: {},
+            currentLanguage: 'zh-TW',
+            signatureCanvas: null,
+            isSignatureDrawing: false,
+            newsItems: [],
+            currentNewsIndex: 0,
+            adItems: [],
+            botConfig: {
+                apiEndpoint: 'https://api.pdfmaster.com/v1',
+                apiKey: '',
+                autoReplyEnabled: false
+            }
+        };
+        
+        // 初始化應用程式
+        function initializeApp() {
+            // 檢查並設置語言
+            const savedLang = localStorage.getItem('pdfMasterLanguage') || 'zh-TW';
+            AppState.currentLanguage = savedLang;
+            updateLanguage();
+            
+            // 設置拖放事件
+            setupDragAndDrop();
+            
+            // 初始化 Fabric.js
+            initializeFabricCanvas();
+            
+            // 設置鍵盤快捷鍵
+            setupKeyboardShortcuts();
+            
+            // 設置右鍵選單
+            setupContextMenu();
+            
+            // 初始化簽名板
+            initializeSignaturePad();
+            
+            // 顯示狀態訊息
+            updateStatus(t('ready'));
+        }
+        
+        // 翻譯函數
+        function t(key) {
+            return translations[AppState.currentLanguage][key] || key;
+        }
+        
+        // 更新語言
+        function updateLanguage() {
+            document.documentElement.lang = AppState.currentLanguage;
+            
+            // 更新所有帶有 data-i18n 屬性的元素
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                element.textContent = t(key);
+            });
+            
+            // 更新所有帶有 data-tooltip 屬性的元素
+            document.querySelectorAll('[data-tooltip]').forEach(element => {
+                const key = element.getAttribute('data-tooltip');
+                element.setAttribute('data-tooltip', t(key));
+            });
+            
+            // 更新當前語言顯示
+            const langNames = {
+                'zh-TW': '繁體中文',
+                'en': 'English',
+                'zh-CN': '简体中文',
+                'ja': '日本語',
+                'ko': '한국어',
+                'es': 'Español',
+                'fr': 'Français',
+                'de': 'Deutsch',
+                'pt': 'Português',
+                'ru': 'Русский',
+                'ar': 'العربية',
+                'hi': 'हिन्दी',
+                'it': 'Italiano',
+                'nl': 'Nederlands',
+                'pl': 'Polski',
+                'tr': 'Türkçe',
+                'vi': 'Tiếng Việt',
+                'th': 'ไทย',
+                'id': 'Bahasa Indonesia',
+                'sv': 'Svenska'
+            };
+            document.getElementById('current-lang').textContent = langNames[AppState.currentLanguage];
+            
+            // 如果是阿拉伯語，設置RTL
+            if (AppState.currentLanguage === 'ar') {
+                document.body.style.direction = 'rtl';
+            } else {
+                document.body.style.direction = 'ltr';
+            }
+        }
+        
+        // 切換語言選單
+        function toggleLanguageMenu() {
+            const menu = document.getElementById('language-menu');
+            menu.classList.toggle('active');
+        }
+        
+        // 切換語言
+        function changeLanguage(lang) {
+            AppState.currentLanguage = lang;
+            localStorage.setItem('pdfMasterLanguage', lang);
+            updateLanguage();
+            toggleLanguageMenu();
+            updateStatus(t('ready'));
+        }
+        
+        // 設置拖放功能
+        function setupDragAndDrop() {
+            const uploadArea = document.getElementById('upload-area');
+            const canvasWrapper = document.getElementById('canvas-wrapper');
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                canvasWrapper.addEventListener(eventName, preventDefaults, false);
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                canvasWrapper.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                canvasWrapper.addEventListener(eventName, unhighlight, false);
+            });
+            
+            function highlight(e) {
+                uploadArea.style.background = '#f0f8ff';
+                uploadArea.style.borderColor = '#1a73e8';
+            }
+            
+            function unhighlight(e) {
+                uploadArea.style.background = '';
+                uploadArea.style.borderColor = '';
+            }
+            
+            canvasWrapper.addEventListener('drop', handleDrop, false);
+            
+            function handleDrop(e) {
+                const files = e.dataTransfer.files;
+                if (files.length > 0 && files[0].type === 'application/pdf') {
+                    handleFile(files[0]);
+                }
+            }
+        }
+        
+        // 處理檔案選擇
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                handleFile(file);
+            }
+        }
+        
+        // 處理PDF檔案
+        async function handleFile(file) {
+            const uploadArea = document.getElementById('upload-area');
+            const loading = document.getElementById('loading');
+            const canvasContainer = document.getElementById('pdf-canvas-container');
+            
+            uploadArea.style.display = 'none';
+            loading.style.display = 'block';
+            
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument(arrayBuffer);
+                
+                AppState.pdfDoc = await loadingTask.promise;
+                AppState.totalPages = AppState.pdfDoc.numPages;
+                AppState.currentPage = 1;
+                
+                // 初始化頁面資料結構
+                for (let i = 1; i <= AppState.totalPages; i++) {
+                    AppState.pages[i] = { objects: [] };
+                    AppState.modifications[i] = [];
+                }
+                
+                // 載入頁面縮圖
+                await loadThumbnails();
+                
+                // 渲染第一頁
+                await renderPage(1);
+                
+                loading.style.display = 'none';
+                canvasContainer.style.display = 'block';
+                
+                updateStatus(`已載入 ${file.name} (共 ${AppState.totalPages} 頁)`);
+            } catch (error) {
+                console.error('載入PDF時發生錯誤:', error);
+                loading.style.display = 'none';
+                uploadArea.style.display = 'block';
+                alert('載入PDF時發生錯誤，請確認檔案格式正確。');
+            }
+        }
+        
+        // 載入頁面縮圖
+        async function loadThumbnails() {
+            const pageList = document.getElementById('page-list');
+            pageList.innerHTML = '';
+            
+            for (let i = 1; i <= AppState.totalPages; i++) {
+                const page = await AppState.pdfDoc.getPage(i);
+                const scale = 0.3;
+                const viewport = page.getViewport({ scale });
+                
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                
+                await page.render(renderContext).promise;
+                
+                const pageItem = document.createElement('div');
+                pageItem.className = 'page-item';
+                pageItem.onclick = () => goToPage(i);
+                if (i === 1) pageItem.classList.add('active');
+                
+                const img = document.createElement('img');
+                img.className = 'page-thumbnail';
+                img.src = canvas.toDataURL();
+                
+                const pageNumber = document.createElement('div');
+                pageNumber.className = 'page-number';
+                pageNumber.textContent = `第 ${i} 頁`;
+                
+                pageItem.appendChild(img);
+                pageItem.appendChild(pageNumber);
+                pageList.appendChild(pageItem);
+            }
+        }
+        
+        // 渲染PDF頁面
+        async function renderPage(pageNum) {
+            if (!AppState.pdfDoc) return;
+            
+            // 儲存當前頁面的編輯內容
+            if (AppState.fabricCanvas) {
+                saveCurrentPageState();
+            }
+            
+            const page = await AppState.pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale: AppState.scale });
+            
+            const canvas = document.getElementById('pdf-canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            const renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            
+            await page.render(renderContext).promise;
+            
+            // 更新 Fabric canvas 尺寸
+            if (AppState.fabricCanvas) {
+                AppState.fabricCanvas.setWidth(viewport.width);
+                AppState.fabricCanvas.setHeight(viewport.height);
+                
+                // 載入該頁面的編輯內容
+                loadPageState(pageNum);
+            }
+            
+            // 更新頁面資訊
+            document.getElementById('page-info').textContent = `${pageNum} / ${AppState.totalPages}`;
+            
+            // 更新縮圖選中狀態
+            updateThumbnailSelection(pageNum);
+            
+            AppState.currentPage = pageNum;
+        }
+        
+        // 初始化 Fabric.js Canvas
+        function initializeFabricCanvas() {
+            const fabricCanvas = new fabric.Canvas('fabric-canvas', {
+                selection: true,
+                preserveObjectStacking: true
+            });
+            
+            AppState.fabricCanvas = fabricCanvas;
+            
+            // 物件選中事件
+            fabricCanvas.on('selection:created', (e) => {
+                AppState.selectedObject = e.selected[0];
+                showPropertiesPanel();
+                updatePropertyValues();
+            });
+            
+            fabricCanvas.on('selection:updated', (e) => {
+                AppState.selectedObject = e.selected[0];
+                updatePropertyValues();
+            });
+            
+            fabricCanvas.on('selection:cleared', () => {
+                AppState.selectedObject = null;
+                hidePropertiesPanel();
+            });
+            
+            // 物件修改事件
+            fabricCanvas.on('object:modified', () => {
+                saveToHistory();
+            });
+            
+            // 滑鼠事件處理
+            fabricCanvas.on('mouse:down', handleMouseDown);
+            fabricCanvas.on('mouse:move', handleMouseMove);
+            fabricCanvas.on('mouse:up', handleMouseUp);
+        }
+        
+        // 工具切換
+        function setTool(tool) {
+            AppState.currentTool = tool;
+            
+            // 更新工具按鈕狀態
+            document.querySelectorAll('.floating-tool').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-tool="${tool}"]`).classList.add('active');
+            
+            // 設置游標樣式
+            switch (tool) {
+                case 'select':
+                    AppState.fabricCanvas.defaultCursor = 'default';
+                    AppState.fabricCanvas.isDrawingMode = false;
+                    break;
+                case 'text':
+                    AppState.fabricCanvas.defaultCursor = 'text';
+                    AppState.fabricCanvas.isDrawingMode = false;
+                    break;
+                case 'draw':
+                    AppState.fabricCanvas.defaultCursor = 'crosshair';
+                    AppState.fabricCanvas.isDrawingMode = true;
+                    AppState.fabricCanvas.freeDrawingBrush.width = 2;
+                    AppState.fabricCanvas.freeDrawingBrush.color = '#000000';
+                    break;
+                case 'shape':
+                    AppState.fabricCanvas.defaultCursor = 'crosshair';
+                    AppState.fabricCanvas.isDrawingMode = false;
+                    break;
+                case 'highlight':
+                    AppState.fabricCanvas.defaultCursor = 'crosshair';
+                    AppState.fabricCanvas.isDrawingMode = true;
+                    AppState.fabricCanvas.freeDrawingBrush.width = 20;
+                    AppState.fabricCanvas.freeDrawingBrush.color = 'rgba(255, 255, 0, 0.5)';
+                    break;
+                case 'image':
+                    AppState.fabricCanvas.defaultCursor = 'default';
+                    AppState.fabricCanvas.isDrawingMode = false;
+                    showModal('image-modal');
+                    break;
+                case 'stamp':
+                    AppState.fabricCanvas.defaultCursor = 'default';
+                    AppState.fabricCanvas.isDrawingMode = false;
+                    showModal('stamp-modal');
+                    break;
+                case 'signature':
+                    AppState.fabricCanvas.defaultCursor = 'default';
+                    AppState.fabricCanvas.isDrawingMode = false;
+                    showModal('signature-modal');
+                    break;
+            }
+            
+            updateStatus(`${t('ready')} - ${t(tool)}`);
+        }
+        
+        // 滑鼠事件處理
+        function handleMouseDown(options) {
+            if (AppState.currentTool === 'text' && !options.target) {
+                const pointer = AppState.fabricCanvas.getPointer(options.e);
+                showTextEditor(pointer.x, pointer.y);
+            } else if (AppState.currentTool === 'shape' && !options.target) {
+                const pointer = AppState.fabricCanvas.getPointer(options.e);
+                startDrawingShape(pointer.x, pointer.y);
+            }
+        }
+        
+        function handleMouseMove(options) {
+            if (AppState.isDrawing && AppState.currentTool === 'shape') {
+                const pointer = AppState.fabricCanvas.getPointer(options.e);
+                updateDrawingShape(pointer.x, pointer.y);
+            }
+        }
+        
+        function handleMouseUp(options) {
+            if (AppState.isDrawing && AppState.currentTool === 'shape') {
+                AppState.isDrawing = false;
+                saveToHistory();
+            }
+        }
+        
+        // 文字編輯器
+        function showTextEditor(x, y) {
+            const editor = document.getElementById('text-editor');
+            const input = document.getElementById('text-editor-input');
+            
+            editor.style.left = x + 'px';
+            editor.style.top = y + 'px';
+            editor.style.display = 'block';
+            
+            input.value = '';
+            input.focus();
+            
+            input.onblur = () => {
+                if (input.value.trim()) {
+                    const text = new fabric.IText(input.value, {
+                        left: x,
+                        top: y,
+                        fontFamily: 'Arial',
+                        fontSize: 16,
+                        fill: '#000000'
+                    });
+                    AppState.fabricCanvas.add(text);
+                    saveToHistory();
+                }
+                editor.style.display = 'none';
+            };
+            
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    input.blur();
+                }
+            };
+        }
+        
+        // 形狀繪製
+        let drawingShape = null;
+        let shapeStartX = 0;
+        let shapeStartY = 0;
+        
+        function startDrawingShape(x, y) {
+            AppState.isDrawing = true;
+            shapeStartX = x;
+            shapeStartY = y;
+            
+            // 預設繪製矩形
+            drawingShape = new fabric.Rect({
+                left: x,
+                top: y,
+                width: 0,
+                height: 0,
+                fill: 'transparent',
+                stroke: '#000000',
+                strokeWidth: 2
+            });
+            
+            AppState.fabricCanvas.add(drawingShape);
+        }
+        
+        function updateDrawingShape(x, y) {
+            if (!drawingShape) return;
+            
+            const width = Math.abs(x - shapeStartX);
+            const height = Math.abs(y - shapeStartY);
+            const left = Math.min(x, shapeStartX);
+            const top = Math.min(y, shapeStartY);
+            
+            drawingShape.set({
+                left: left,
+                top: top,
+                width: width,
+                height: height
+            });
+            
+            AppState.fabricCanvas.renderAll();
+        }
+        
+        // 頁面導航
+        function previousPage() {
+            if (AppState.currentPage > 1) {
+                goToPage(AppState.currentPage - 1);
+            }
+        }
+        
+        function nextPage() {
+            if (AppState.currentPage < AppState.totalPages) {
+                goToPage(AppState.currentPage + 1);
+            }
+        }
+        
+        function goToPage(pageNum) {
+            if (pageNum >= 1 && pageNum <= AppState.totalPages) {
+                renderPage(pageNum);
+            }
+        }
+        
+        // 縮放控制
+        function zoomIn() {
+            AppState.scale = Math.min(AppState.scale * 1.2, 3.0);
+            renderPage(AppState.currentPage);
+            updateZoomLevel();
+        }
+        
+        function zoomOut() {
+            AppState.scale = Math.max(AppState.scale / 1.2, 0.3);
+            renderPage(AppState.currentPage);
+            updateZoomLevel();
+        }
+        
+        function fitToPage() {
+            const wrapper = document.getElementById('canvas-wrapper');
+            const wrapperWidth = wrapper.clientWidth - 40;
+            const wrapperHeight = wrapper.clientHeight - 40;
+            
+            if (AppState.pdfDoc) {
+                AppState.pdfDoc.getPage(AppState.currentPage).then(page => {
+                    const viewport = page.getViewport({ scale: 1 });
+                    const scaleX = wrapperWidth / viewport.width;
+                    const scaleY = wrapperHeight / viewport.height;
+                    AppState.scale = Math.min(scaleX, scaleY);
+                    renderPage(AppState.currentPage);
+                    updateZoomLevel();
+                });
+            }
+        }
+        
+        function updateZoomLevel() {
+            document.getElementById('zoom-level').textContent = Math.round(AppState.scale * 100) + '%';
+        }
+        
+        // 屬性面板
+        function showPropertiesPanel() {
+            document.getElementById('properties-panel').classList.add('active');
+        }
+        
+        function hidePropertiesPanel() {
+            document.getElementById('properties-panel').classList.remove('active');
+        }
+        
+        function updatePropertyValues() {
+            if (!AppState.selectedObject) return;
+            
+            const obj = AppState.selectedObject;
+            
+            // 更新屬性值
+            if (obj.fill) {
+                document.getElementById('fill-color').value = obj.fill;
+            }
+            if (obj.stroke) {
+                document.getElementById('stroke-color').value = obj.stroke;
+            }
+            if (obj.strokeWidth) {
+                document.getElementById('stroke-width').value = obj.strokeWidth;
+            }
+            if (obj.opacity !== undefined) {
+                document.getElementById('opacity').value = obj.opacity * 100;
+            }
+            if (obj.fontSize) {
+                document.getElementById('font-size').value = obj.fontSize;
+            }
+            if (obj.fontFamily) {
+                document.getElementById('font-family').value = obj.fontFamily;
+            }
+        }
+        
+        function updateObjectProperty(property) {
+            if (!AppState.selectedObject) return;
+            
+            const value = document.getElementById(property.toLowerCase().replace(/([A-Z])/g, '-$1')).value;
+            
+            switch (property) {
+                case 'fill':
+                case 'stroke':
+                    AppState.selectedObject.set(property, value);
+                    break;
+                case 'strokeWidth':
+                case 'fontSize':
+                    AppState.selectedObject.set(property, parseInt(value));
+                    break;
+                case 'opacity':
+                    AppState.selectedObject.set('opacity', value / 100);
+                    break;
+                case 'fontFamily':
+                    AppState.selectedObject.set('fontFamily', value);
+                    break;
+            }
+            
+            AppState.fabricCanvas.renderAll();
+            saveToHistory();
+        }
+        
+        // 歷史記錄管理
+        function saveToHistory() {
+            const state = JSON.stringify(AppState.fabricCanvas.toJSON());
+            AppState.history = AppState.history.slice(0, AppState.historyIndex + 1);
+            AppState.history.push(state);
+            AppState.historyIndex++;
+            
+            // 限制歷史記錄數量
+            if (AppState.history.length > 50) {
+                AppState.history.shift();
+                AppState.historyIndex--;
+            }
+        }
+        
+        function undo() {
+            if (AppState.historyIndex > 0) {
+                AppState.historyIndex--;
+                const state = JSON.parse(AppState.history[AppState.historyIndex]);
+                AppState.fabricCanvas.loadFromJSON(state, () => {
+                    AppState.fabricCanvas.renderAll();
+                });
+                updateStatus('已復原');
+            }
+        }
+        
+        function redo() {
+            if (AppState.historyIndex < AppState.history.length - 1) {
+                AppState.historyIndex++;
+                const state = JSON.parse(AppState.history[AppState.historyIndex]);
+                AppState.fabricCanvas.loadFromJSON(state, () => {
+                    AppState.fabricCanvas.renderAll();
+                });
+                updateStatus('已重做');
+            }
+        }
+        
+        // 剪貼簿操作
+        function cut() {
+            copy();
+            deleteSelected();
+        }
+        
+        function copy() {
+            if (AppState.selectedObject) {
+                AppState.clipboard = AppState.selectedObject.toObject();
+                updateStatus('已複製到剪貼簿');
+            }
+        }
+        
+        function paste() {
+            if (AppState.clipboard) {
+                fabric.util.enlivenObjects([AppState.clipboard], (objects) => {
+                    objects.forEach((obj) => {
+                        obj.set({
+                            left: obj.left + 10,
+                            top: obj.top + 10
+                        });
+                        AppState.fabricCanvas.add(obj);
+                    });
+                    AppState.fabricCanvas.renderAll();
+                    saveToHistory();
+                    updateStatus('已貼上');
+                });
+            }
+        }
+        
+        function deleteSelected() {
+            const activeObjects = AppState.fabricCanvas.getActiveObjects();
+            activeObjects.forEach(obj => {
+                AppState.fabricCanvas.remove(obj);
+            });
+            AppState.fabricCanvas.discardActiveObject();
+            AppState.fabricCanvas.renderAll();
+            saveToHistory();
+            updateStatus('已刪除選中物件');
+        }
+        
+        // 頁面狀態管理
+        function saveCurrentPageState() {
+            if (AppState.currentPage && AppState.fabricCanvas) {
+                AppState.pages[AppState.currentPage].objects = AppState.fabricCanvas.toJSON().objects;
+            }
+        }
+        
+        function loadPageState(pageNum) {
+            AppState.fabricCanvas.clear();
+            
+            if (AppState.pages[pageNum] && AppState.pages[pageNum].objects.length > 0) {
+                fabric.util.enlivenObjects(AppState.pages[pageNum].objects, (objects) => {
+                    objects.forEach(obj => {
+                        AppState.fabricCanvas.add(obj);
+                    });
+                    AppState.fabricCanvas.renderAll();
+                });
+            }
+        }
+        
+        // 匯出PDF
+        async function exportPDF() {
+            if (!AppState.pdfDoc) return;
+            
+            updateStatus('正在準備匯出PDF...');
+            
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF();
+            
+            for (let i = 1; i <= AppState.totalPages; i++) {
+                if (i > 1) pdf.addPage();
+                
+                // 渲染原始PDF頁面
+                const page = await AppState.pdfDoc.getPage(i);
+                const viewport = page.getViewport({ scale: 2 });
+                
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                
+                await page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                }).promise;
+                
+                // 如果有編輯內容，疊加上去
+                if (AppState.pages[i] && AppState.pages[i].objects.length > 0) {
+                    const tempCanvas = new fabric.Canvas(null, {
+                        width: viewport.width,
+                        height: viewport.height
+                    });
+                    
+                    fabric.util.enlivenObjects(AppState.pages[i].objects, (objects) => {
+                        objects.forEach(obj => {
+                            obj.scaleX *= 2;
+                            obj.scaleY *= 2;
+                            obj.left *= 2;
+                            obj.top *= 2;
+                            tempCanvas.add(obj);
+                        });
+                        
+                        const editCanvas = tempCanvas.toCanvasElement();
+                        context.drawImage(editCanvas, 0, 0);
+                    });
+                }
+                
+                const imgData = canvas.toDataURL('image/png');
+                pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+            }
+            
+            pdf.save('edited-document.pdf');
+            updateStatus('PDF已成功匯出');
+        }
+        
+        // 快捷鍵設置
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    switch (e.key.toLowerCase()) {
+                        case 'z':
+                            e.preventDefault();
+                            if (e.shiftKey) {
+                                redo();
+                            } else {
+                                undo();
+                            }
+                            break;
+                        case 'y':
+                            e.preventDefault();
+                            redo();
+                            break;
+                        case 'c':
+                            e.preventDefault();
+                            copy();
+                            break;
+                        case 'x':
+                            e.preventDefault();
+                            cut();
+                            break;
+                        case 'v':
+                            e.preventDefault();
+                            paste();
+                            break;
+                        case 's':
+                            e.preventDefault();
+                            savePDF();
+                            break;
+                        case 'o':
+                            e.preventDefault();
+                            openFile();
+                            break;
+                    }
+                } else if (e.key === 'Delete') {
+                    deleteSelected();
+                }
+            });
+        }
+        
+        // 右鍵選單
+        function setupContextMenu() {
+            document.addEventListener('contextmenu', (e) => {
+                if (e.target.closest('.upper-canvas')) {
+                    e.preventDefault();
+                    showContextMenu(e.clientX, e.clientY);
+                }
+            });
+            
+            document.addEventListener('click', () => {
+                hideContextMenu();
+            });
+        }
+        
+        function showContextMenu(x, y) {
+            const menu = document.getElementById('context-menu');
+            menu.style.left = x + 'px';
+            menu.style.top = y + 'px';
+            menu.style.display = 'block';
+        }
+        
+        function hideContextMenu() {
+            document.getElementById('context-menu').style.display = 'none';
+        }
+        
+        function contextAction(action) {
+            switch (action) {
+                case 'cut':
+                    cut();
+                    break;
+                case 'copy':
+                    copy();
+                    break;
+                case 'paste':
+                    paste();
+                    break;
+                case 'delete':
+                    deleteSelected();
+                    break;
+                case 'bringToFront':
+                    if (AppState.selectedObject) {
+                        AppState.selectedObject.bringToFront();
+                        AppState.fabricCanvas.renderAll();
+                        saveToHistory();
+                    }
+                    break;
+                case 'sendToBack':
+                    if (AppState.selectedObject) {
+                        AppState.selectedObject.sendToBack();
+                        AppState.fabricCanvas.renderAll();
+                        saveToHistory();
+                    }
+                    break;
+            }
+            hideContextMenu();
+        }
+        
+        // 更新縮圖選中狀態
+        function updateThumbnailSelection(pageNum) {
+            document.querySelectorAll('.page-item').forEach((item, index) => {
+                if (index + 1 === pageNum) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // 開啟檔案
+        function openFile() {
+            document.getElementById('file-input').click();
+        }
+        
+        // 儲存PDF (在實際應用中應該實現伺服器端儲存)
+        function savePDF() {
+            saveCurrentPageState();
+            localStorage.setItem('pdfEditorState', JSON.stringify(AppState.pages));
+            updateStatus('已儲存編輯內容');
+        }
+        
+        // 新增頁面
+        function addPage() {
+            // 在實際應用中，這裡應該實現真正的頁面新增功能
+            alert('新增頁面功能將在後續版本中實現');
+        }
+        
+        // 刪除頁面
+        function deletePage() {
+            if (AppState.totalPages > 1) {
+                if (confirm(`確定要刪除第 ${AppState.currentPage} 頁嗎？`)) {
+                    // 在實際應用中，這裡應該實現真正的頁面刪除功能
+                    alert('刪除頁面功能將在後續版本中實現');
+                }
+            }
+        }
+        
+        // 重新排序頁面
+        function reorderPages() {
+            alert('頁面排序功能將在後續版本中實現');
+        }
+        
+        // 設定
+        function openSettings() {
+            alert('設定功能將在後續版本中實現');
+        }
+        
+        // 更新狀態訊息
+        function updateStatus(message) {
+            document.getElementById('status-message').textContent = message;
+        }
+        
+        // 獲取工具名稱
+        function getToolName(tool) {
+            const names = {
+                select: '選擇',
+                text: '文字',
+                draw: '繪圖',
+                shape: '形狀',
+                image: '圖片',
+                highlight: '螢光筆',
+                stamp: '印章',
+                signature: '簽名'
+            };
+            return names[tool] || tool;
+        }
+        
+        // 模態框控制
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        // 處理圖片上傳
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    fabric.Image.fromURL(e.target.result, function(img) {
+                        // 調整圖片大小以適應畫布
+                        const maxWidth = AppState.fabricCanvas.width * 0.5;
+                        const maxHeight = AppState.fabricCanvas.height * 0.5;
+                        const scale = Math.min(maxWidth / img.width, maxHeight / img.height, 1);
+                        
+                        img.scale(scale);
+                        img.set({
+                            left: AppState.fabricCanvas.width / 2,
+                            top: AppState.fabricCanvas.height / 2,
+                            originX: 'center',
+                            originY: 'center'
+                        });
+                        
+                        AppState.fabricCanvas.add(img);
+                        AppState.fabricCanvas.setActiveObject(img);
+                        saveToHistory();
+                        closeModal('image-modal');
+                        updateStatus(t('ready'));
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // 添加印章
+        function addStamp(stampType) {
+            let stampSvg = '';
+            let color = '#000000';
+            
+            switch(stampType) {
+                case 'approved':
+                    color = '#4CAF50';
+                    stampSvg = `<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="75" cy="75" r="70" fill="none" stroke="${color}" stroke-width="5"/>
+                        <text x="75" y="65" text-anchor="middle" fill="${color}" font-size="24" font-weight="bold">APPROVED</text>
+                        <text x="75" y="90" text-anchor="middle" fill="${color}" font-size="16">${translations[AppState.currentLanguage].approved || '已批准'}</text>
+                    </svg>`;
+                    break;
+                case 'rejected':
+                    color = '#F44336';
+                    stampSvg = `<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="75" cy="75" r="70" fill="none" stroke="${color}" stroke-width="5"/>
+                        <text x="75" y="65" text-anchor="middle" fill="${color}" font-size="24" font-weight="bold">REJECTED</text>
+                        <text x="75" y="90" text-anchor="middle" fill="${color}" font-size="16">${translations[AppState.currentLanguage].rejected || '已拒絕'}</text>
+                    </svg>`;
+                    break;
+                case 'confidential':
+                    color = '#FF9800';
+                    stampSvg = `<svg width="180" height="100" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="25" width="170" height="50" fill="none" stroke="${color}" stroke-width="5"/>
+                        <text x="90" y="55" text-anchor="middle" fill="${color}" font-size="20" font-weight="bold">CONFIDENTIAL</text>
+                    </svg>`;
+                    break;
+                case 'copy':
+                    color = '#2196F3';
+                    stampSvg = `<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                        <g transform="rotate(-15 75 75)">
+                            <rect x="25" y="50" width="100" height="50" fill="none" stroke="${color}" stroke-width="5"/>
+                            <text x="75" y="80" text-anchor="middle" fill="${color}" font-size="28" font-weight="bold">COPY</text>
+                        </g>
+                    </svg>`;
+                    break;
+                case 'urgent':
+                    color = '#F44336';
+                    stampSvg = `<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="75,20 130,120 20,120" fill="none" stroke="${color}" stroke-width="5"/>
+                        <text x="75" y="90" text-anchor="middle" fill="${color}" font-size="24" font-weight="bold">URGENT</text>
+                    </svg>`;
+                    break;
+                case 'paid':
+                    color = '#4CAF50';
+                    stampSvg = `<svg width="150" height="150" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="75" cy="75" r="70" fill="none" stroke="${color}" stroke-width="5"/>
+                        <text x="75" y="65" text-anchor="middle" fill="${color}" font-size="32" font-weight="bold">PAID</text>
+                        <text x="75" y="90" text-anchor="middle" fill="${color}" font-size="16">${translations[AppState.currentLanguage].paid || '已付款'}</text>
+                    </svg>`;
+                    break;
+            }
+            
+            fabric.loadSVGFromString(stampSvg, function(objects, options) {
+                const stamp = fabric.util.groupSVGElements(objects, options);
+                stamp.set({
+                    left: AppState.fabricCanvas.width / 2,
+                    top: AppState.fabricCanvas.height / 2,
+                    originX: 'center',
+                    originY: 'center'
+                });
+                
+                AppState.fabricCanvas.add(stamp);
+                AppState.fabricCanvas.setActiveObject(stamp);
+                saveToHistory();
+                closeModal('stamp-modal');
+                updateStatus(t('ready'));
+            });
+        }
+        
+        // 初始化簽名板
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signature-canvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // 觸控支援
+            canvas.addEventListener('touchstart', handleTouch);
+            canvas.addEventListener('touchmove', handleTouch);
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = getMousePos(e);
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const [currentX, currentY] = getMousePos(e);
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                ctx.strokeStyle = document.getElementById('signature-color').value;
+                ctx.lineWidth = document.getElementById('signature-width').value;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                [lastX, lastY] = [currentX, currentY];
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            function getMousePos(e) {
+                const rect = canvas.getBoundingClientRect();
+                return [
+                    e.clientX - rect.left,
+                    e.clientY - rect.top
+                ];
+            }
+            
+            function handleTouch(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent(e.type === 'touchstart' ? 'mousedown' : 
+                                                 e.type === 'touchmove' ? 'mousemove' : 'mouseup', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                canvas.dispatchEvent(mouseEvent);
+            }
+            
+            AppState.signatureCanvas = canvas;
+        }
+        
+        // 清除簽名
+        function clearSignature() {
+            const canvas = AppState.signatureCanvas;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        
+        // 儲存簽名
+        function saveSignature() {
+            const canvas = AppState.signatureCanvas;
+            const dataURL = canvas.toDataURL();
+            
+            fabric.Image.fromURL(dataURL, function(img) {
+                img.set({
+                    left: AppState.fabricCanvas.width / 2,
+                    top: AppState.fabricCanvas.height / 2,
+                    originX: 'center',
+                    originY: 'center'
+                });
+                
+                AppState.fabricCanvas.add(img);
+                AppState.fabricCanvas.setActiveObject(img);
+                saveToHistory();
+                closeModal('signature-modal');
+                clearSignature();
+                updateStatus(t('ready'));
+            });
+        }
+        
+        // 新聞廣告系統
+        function initializeNewsSystem() {
+            // 載入預設新聞
+            AppState.newsItems = [
+                { title: '歡迎使用 PDF Master - 您的專業 PDF 編輯助手！', link: '', priority: 'normal' },
+                { title: '新功能上線：AI 智能識別文字，讓編輯更輕鬆！', link: '', priority: 'important' },
+                { title: '限時優惠：升級專業版享 50% 折扣！', link: '', priority: 'urgent' }
+            ];
+            
+            // 開始新聞輪播
+            startNewsRotation();
+            
+            // 顯示新聞欄
+            document.body.classList.add('news-active');
+            
+            // 定時顯示廣告
+            setTimeout(showRandomAd, 30000);
+        }
+        
+        function startNewsRotation() {
+            setInterval(() => {
+                if (AppState.newsItems.length > 0) {
+                    AppState.currentNewsIndex = (AppState.currentNewsIndex + 1) % AppState.newsItems.length;
+                    updateNewsDisplay();
+                }
+            }, 5000);
+        }
+        
+        function updateNewsDisplay() {
+            const newsItem = AppState.newsItems[AppState.currentNewsIndex];
+            const newsElement = document.querySelector('.news-item');
+            if (newsElement && newsItem) {
+                newsElement.textContent = newsItem.title;
+                
+                // 根據優先級改變顏色
+                const ticker = document.querySelector('.news-ticker');
+                if (newsItem.priority === 'urgent') {
+                    ticker.style.background = 'linear-gradient(90deg, #ea4335 0%, #fbbc04 50%, #ea4335 100%)';
+                } else if (newsItem.priority === 'important') {
+                    ticker.style.background = 'linear-gradient(90deg, #fbbc04 0%, #34a853 50%, #fbbc04 100%)';
+                } else {
+                    ticker.style.background = 'linear-gradient(90deg, #1a73e8 0%, #34a853 50%, #fbbc04 100%)';
+                }
+            }
+        }
+        
+        function toggleNewsTicker() {
+            const ticker = document.getElementById('news-ticker');
+            ticker.style.display = ticker.style.display === 'none' ? 'flex' : 'none';
+            document.body.classList.toggle('news-active');
+        }
+        
+        // Bot 面板控制
+        function toggleBotPanel() {
+            const panel = document.getElementById('bot-panel');
+            panel.classList.toggle('active');
+        }
+        
+        // Bot 動作處理
+        function botAction(action) {
+            switch(action) {
+                case 'addNews':
+                    document.getElementById('news-modal-title').textContent = '新增新聞';
+                    showModal('news-management-modal');
+                    break;
+                case 'editNews':
+                    showNewsListForEdit();
+                    break;
+                case 'deleteNews':
+                    showNewsListForDelete();
+                    break;
+                case 'scheduleNews':
+                    showScheduleNewsModal();
+                    break;
+                case 'addAd':
+                    showModal('ad-management-modal');
+                    break;
+                case 'adStats':
+                    showAdStatistics();
+                    break;
+                case 'adSettings':
+                    showAdSettings();
+                    break;
+                case 'adRevenue':
+                    showAdRevenue();
+                    break;
+                case 'analytics':
+                    showAnalytics();
+                    break;
+                case 'userManage':
+                    showUserManagement();
+                    break;
+                case 'backup':
+                    performBackup();
+                    break;
+                case 'apiKeys':
+                    showApiKeyManagement();
+                    break;
+                case 'autoReply':
+                    toggleAutoReply();
+                    break;
+                case 'botSchedule':
+                    showBotSchedule();
+                    break;
+                case 'botLogs':
+                    showBotLogs();
+                    break;
+                case 'botSettings':
+                    showBotSettings();
+                    break;
+                default:
+                    console.log('Unknown bot action:', action);
+            }
+        }
+        
+        // 新聞管理功能
+        function saveNews() {
+            const title = document.getElementById('news-title').value;
+            const content = document.getElementById('news-content').value;
+            const link = document.getElementById('news-link').value;
+            const schedule = document.getElementById('news-schedule').value;
+            const priority = document.getElementById('news-priority').value;
+            
+            if (title && content) {
+                const newsItem = {
+                    id: Date.now(),
+                    title: title,
+                    content: content,
+                    link: link,
+                    schedule: schedule,
+                    priority: priority,
+                    createdAt: new Date().toISOString()
+                };
+                
+                AppState.newsItems.push(newsItem);
+                
+                // 模擬 API 調用
+                simulateApiCall('POST', '/api/news', newsItem).then(() => {
+                    alert('新聞已成功新增！');
+                    closeModal('news-management-modal');
+                    document.getElementById('news-form').reset();
+                    updateNewsDisplay();
+                });
+            }
+        }
+        
+        // 廣告管理功能
+        function saveAd() {
+            const title = document.getElementById('ad-title').value;
+            const description = document.getElementById('ad-description').value;
+            const image = document.getElementById('ad-image').value;
+            const link = document.getElementById('ad-link').value;
+            const position = document.getElementById('ad-position').value;
+            const duration = document.getElementById('ad-duration').value;
+            
+            if (title && description && link) {
+                const adItem = {
+                    id: Date.now(),
+                    title: title,
+                    description: description,
+                    image: image,
+                    link: link,
+                    position: position,
+                    duration: parseInt(duration),
+                    createdAt: new Date().toISOString()
+                };
+                
+                AppState.adItems.push(adItem);
+                
+                // 模擬 API 調用
+                simulateApiCall('POST', '/api/ads', adItem).then(() => {
+                    alert('廣告已成功新增！');
+                    closeModal('ad-management-modal');
+                    document.getElementById('ad-form').reset();
+                });
+            }
+        }
+        
+        // 顯示隨機廣告
+        function showRandomAd() {
+            if (AppState.adItems.length > 0) {
+                const randomAd = AppState.adItems[Math.floor(Math.random() * AppState.adItems.length)];
+                showAdBanner(randomAd);
+            }
+            
+            // 每隔一段時間顯示下一個廣告
+            setTimeout(showRandomAd, 60000);
+        }
+        
+        function showAdBanner(ad) {
+            const banner = document.getElementById('ad-banner');
+            const title = document.getElementById('ad-banner-title');
+            const text = document.getElementById('ad-banner-text');
+            
+            if (ad) {
+                title.textContent = ad.title;
+                text.textContent = ad.description;
+                banner.classList.add('active');
+                
+                // 自動關閉
+                setTimeout(() => {
+                    banner.classList.remove('active');
+                }, ad.duration * 1000);
+            }
+        }
+        
+        function closeAdBanner() {
+            document.getElementById('ad-banner').classList.remove('active');
+        }
+        
+        // 模擬 API 調用
+        function simulateApiCall(method, endpoint, data) {
+            return new Promise((resolve) => {
+                console.log(`${method} ${endpoint}`, data);
+                setTimeout(() => {
+                    resolve({ success: true, data: data });
+                }, 500);
+            });
+        }
+        
+        // 顯示分析數據
+        function showAnalytics() {
+            const analyticsData = {
+                totalUsers: 1234,
+                activeUsers: 567,
+                documentsProcessed: 8901,
+                averageSessionTime: '5:23',
+                conversionRate: '3.4%'
+            };
+            
+            alert(`📊 數據分析\n\n總用戶數：${analyticsData.totalUsers}\n活躍用戶：${analyticsData.activeUsers}\n處理文檔數：${analyticsData.documentsProcessed}\n平均使用時長：${analyticsData.averageSessionTime}\n轉換率：${analyticsData.conversionRate}`);
+        }
+        
+        // 顯示廣告統計
+        function showAdStatistics() {
+            const stats = {
+                impressions: 45678,
+                clicks: 1234,
+                ctr: '2.7%',
+                revenue: '$567.89'
+            };
+            
+            alert(`📈 廣告統計\n\n展示次數：${stats.impressions}\n點擊次數：${stats.clicks}\n點擊率：${stats.ctr}\n收益：${stats.revenue}`);
+        }
+        
+        // 自動回覆切換
+        function toggleAutoReply() {
+            AppState.botConfig.autoReplyEnabled = !AppState.botConfig.autoReplyEnabled;
+            alert(`自動回覆已${AppState.botConfig.autoReplyEnabled ? '啟用' : '停用'}`);
+        }
+        
+        // 備份功能
+        function performBackup() {
+            const backupData = {
+                newsItems: AppState.newsItems,
+                adItems: AppState.adItems,
+                botConfig: AppState.botConfig,
+                timestamp: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(backupData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = `pdfmaster-backup-${new Date().toISOString().split('T')[0]}.json`;
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+        
+        // 初始化應用程式
+        window.onload = function() {
+            initializeApp();
+            initializeNewsSystem();
+        };
+    </script>
+</body>
+</html>

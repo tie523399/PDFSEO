@@ -1,0 +1,192 @@
+{
+  "languages": {
+    "zh-TW": {
+      "title": "PDF Master - 專業線上PDF編輯器 | 免費PDF工具",
+      "description": "PDF Master 是一款功能強大的線上PDF編輯器，提供PDF編輯、合併、分割、轉換等功能。支援20種語言，完全免費使用。",
+      "keywords": "PDF編輯器, PDF editor, PDF工具, PDF轉換, PDF合併, PDF分割, 線上PDF, 免費PDF編輯器, PDF Master, PDF簽名, PDF註解",
+      "og_title": "PDF Master - 專業線上PDF編輯器",
+      "og_description": "功能強大的線上PDF編輯器，支援編輯、合併、分割、轉換等功能"
+    },
+    "en": {
+      "title": "PDF Master - Professional Online PDF Editor | Free PDF Tools",
+      "description": "PDF Master is a powerful online PDF editor offering PDF editing, merging, splitting, and conversion features. Supports 20 languages, completely free to use.",
+      "keywords": "PDF editor, PDF tools, PDF converter, PDF merger, PDF splitter, online PDF, free PDF editor, PDF Master, PDF signature, PDF annotation",
+      "og_title": "PDF Master - Professional Online PDF Editor",
+      "og_description": "Powerful online PDF editor with editing, merging, splitting, and conversion features"
+    },
+    "zh-CN": {
+      "title": "PDF Master - 专业在线PDF编辑器 | 免费PDF工具",
+      "description": "PDF Master 是一款功能强大的在线PDF编辑器，提供PDF编辑、合并、分割、转换等功能。支持20种语言，完全免费使用。",
+      "keywords": "PDF编辑器, PDF editor, PDF工具, PDF转换, PDF合并, PDF分割, 在线PDF, 免费PDF编辑器, PDF Master, PDF签名, PDF注释",
+      "og_title": "PDF Master - 专业在线PDF编辑器",
+      "og_description": "功能强大的在线PDF编辑器，支持编辑、合并、分割、转换等功能"
+    },
+    "ja": {
+      "title": "PDF Master - プロフェッショナルオンラインPDFエディタ | 無料PDFツール",
+      "description": "PDF Masterは、PDF編集、結合、分割、変換機能を提供する強力なオンラインPDFエディタです。20言語対応、完全無料。",
+      "keywords": "PDFエディタ, PDFツール, PDF変換, PDF結合, PDF分割, オンラインPDF, 無料PDFエディタ, PDF Master, PDF署名, PDF注釈",
+      "og_title": "PDF Master - プロフェッショナルオンラインPDFエディタ",
+      "og_description": "編集、結合、分割、変換機能を備えた強力なオンラインPDFエディタ"
+    },
+    "ko": {
+      "title": "PDF Master - 전문 온라인 PDF 편집기 | 무료 PDF 도구",
+      "description": "PDF Master는 PDF 편집, 병합, 분할, 변환 기능을 제공하는 강력한 온라인 PDF 편집기입니다. 20개 언어 지원, 완전 무료.",
+      "keywords": "PDF 편집기, PDF 도구, PDF 변환기, PDF 병합, PDF 분할, 온라인 PDF, 무료 PDF 편집기, PDF Master, PDF 서명, PDF 주석",
+      "og_title": "PDF Master - 전문 온라인 PDF 편집기",
+      "og_description": "편집, 병합, 분할, 변환 기능을 갖춘 강력한 온라인 PDF 편집기"
+    },
+    "es": {
+      "title": "PDF Master - Editor de PDF en línea profesional | Herramientas PDF gratuitas",
+      "description": "PDF Master es un potente editor de PDF en línea que ofrece edición, fusión, división y conversión de PDF. Soporta 20 idiomas, completamente gratis.",
+      "keywords": "editor PDF, herramientas PDF, convertidor PDF, fusionar PDF, dividir PDF, PDF en línea, editor PDF gratis, PDF Master, firma PDF, anotación PDF",
+      "og_title": "PDF Master - Editor de PDF en línea profesional",
+      "og_description": "Potente editor de PDF en línea con funciones de edición, fusión, división y conversión"
+    },
+    "fr": {
+      "title": "PDF Master - Éditeur PDF en ligne professionnel | Outils PDF gratuits",
+      "description": "PDF Master est un puissant éditeur PDF en ligne offrant l'édition, la fusion, la division et la conversion de PDF. Prend en charge 20 langues, entièrement gratuit.",
+      "keywords": "éditeur PDF, outils PDF, convertisseur PDF, fusionner PDF, diviser PDF, PDF en ligne, éditeur PDF gratuit, PDF Master, signature PDF, annotation PDF",
+      "og_title": "PDF Master - Éditeur PDF en ligne professionnel",
+      "og_description": "Éditeur PDF en ligne puissant avec fonctions d'édition, fusion, division et conversion"
+    },
+    "de": {
+      "title": "PDF Master - Professioneller Online-PDF-Editor | Kostenlose PDF-Tools",
+      "description": "PDF Master ist ein leistungsstarker Online-PDF-Editor mit PDF-Bearbeitung, -Zusammenführung, -Teilung und -Konvertierung. Unterstützt 20 Sprachen, völlig kostenlos.",
+      "keywords": "PDF-Editor, PDF-Tools, PDF-Konverter, PDF zusammenführen, PDF teilen, Online-PDF, kostenloser PDF-Editor, PDF Master, PDF-Signatur, PDF-Anmerkung",
+      "og_title": "PDF Master - Professioneller Online-PDF-Editor",
+      "og_description": "Leistungsstarker Online-PDF-Editor mit Bearbeitungs-, Zusammenführungs-, Teilungs- und Konvertierungsfunktionen"
+    },
+    "pt": {
+      "title": "PDF Master - Editor de PDF online profissional | Ferramentas PDF gratuitas",
+      "description": "PDF Master é um poderoso editor de PDF online que oferece edição, mesclagem, divisão e conversão de PDF. Suporta 20 idiomas, completamente grátis.",
+      "keywords": "editor PDF, ferramentas PDF, conversor PDF, mesclar PDF, dividir PDF, PDF online, editor PDF grátis, PDF Master, assinatura PDF, anotação PDF",
+      "og_title": "PDF Master - Editor de PDF online profissional",
+      "og_description": "Poderoso editor de PDF online com recursos de edição, mesclagem, divisão e conversão"
+    },
+    "ru": {
+      "title": "PDF Master - Профессиональный онлайн-редактор PDF | Бесплатные инструменты PDF",
+      "description": "PDF Master - мощный онлайн-редактор PDF с функциями редактирования, объединения, разделения и конвертации PDF. Поддерживает 20 языков, полностью бесплатно.",
+      "keywords": "редактор PDF, инструменты PDF, конвертер PDF, объединить PDF, разделить PDF, онлайн PDF, бесплатный редактор PDF, PDF Master, подпись PDF, аннотация PDF",
+      "og_title": "PDF Master - Профессиональный онлайн-редактор PDF",
+      "og_description": "Мощный онлайн-редактор PDF с функциями редактирования, объединения, разделения и конвертации"
+    },
+    "ar": {
+      "title": "PDF Master - محرر PDF احترافي عبر الإنترنت | أدوات PDF مجانية",
+      "description": "PDF Master هو محرر PDF قوي عبر الإنترنت يوفر تحرير وتجميع وتقسيم وتحويل PDF. يدعم 20 لغة، مجاني تمامًا.",
+      "keywords": "محرر PDF، أدوات PDF، محول PDF، دمج PDF، تقسيم PDF، PDF عبر الإنترنت، محرر PDF مجاني، PDF Master، توقيع PDF، تعليق PDF",
+      "og_title": "PDF Master - محرر PDF احترافي عبر الإنترنت",
+      "og_description": "محرر PDF قوي عبر الإنترنت مع ميزات التحرير والدمج والتقسيم والتحويل"
+    },
+    "hi": {
+      "title": "PDF Master - पेशेवर ऑनलाइन PDF संपादक | मुफ्त PDF उपकरण",
+      "description": "PDF Master एक शक्तिशाली ऑनलाइन PDF संपादक है जो PDF संपादन, विलय, विभाजन और रूपांतरण सुविधाएं प्रदान करता है। 20 भाषाओं का समर्थन, पूर्ण रूप से मुफ्त।",
+      "keywords": "PDF संपादक, PDF उपकरण, PDF कनवर्टर, PDF मर्ज, PDF विभाजन, ऑनलाइन PDF, मुफ्त PDF संपादक, PDF Master, PDF हस्ताक्षर, PDF एनोटेशन",
+      "og_title": "PDF Master - पेशेवर ऑनलाइन PDF संपादक",
+      "og_description": "संपादन, विलय, विभाजन और रूपांतरण सुविधाओं के साथ शक्तिशाली ऑनलाइन PDF संपादक"
+    },
+    "it": {
+      "title": "PDF Master - Editor PDF online professionale | Strumenti PDF gratuiti",
+      "description": "PDF Master è un potente editor PDF online che offre modifica, unione, divisione e conversione PDF. Supporta 20 lingue, completamente gratuito.",
+      "keywords": "editor PDF, strumenti PDF, convertitore PDF, unire PDF, dividere PDF, PDF online, editor PDF gratuito, PDF Master, firma PDF, annotazione PDF",
+      "og_title": "PDF Master - Editor PDF online professionale",
+      "og_description": "Potente editor PDF online con funzioni di modifica, unione, divisione e conversione"
+    },
+    "nl": {
+      "title": "PDF Master - Professionele online PDF-editor | Gratis PDF-tools",
+      "description": "PDF Master is een krachtige online PDF-editor met PDF-bewerking, samenvoegen, splitsen en conversie. Ondersteunt 20 talen, volledig gratis.",
+      "keywords": "PDF-editor, PDF-tools, PDF-converter, PDF samenvoegen, PDF splitsen, online PDF, gratis PDF-editor, PDF Master, PDF-handtekening, PDF-annotatie",
+      "og_title": "PDF Master - Professionele online PDF-editor",
+      "og_description": "Krachtige online PDF-editor met bewerkings-, samenvoeg-, splits- en conversiefuncties"
+    },
+    "pl": {
+      "title": "PDF Master - Profesjonalny edytor PDF online | Darmowe narzędzia PDF",
+      "description": "PDF Master to potężny edytor PDF online oferujący edycję, łączenie, dzielenie i konwersję PDF. Obsługuje 20 języków, całkowicie za darmo.",
+      "keywords": "edytor PDF, narzędzia PDF, konwerter PDF, łączenie PDF, dzielenie PDF, PDF online, darmowy edytor PDF, PDF Master, podpis PDF, adnotacja PDF",
+      "og_title": "PDF Master - Profesjonalny edytor PDF online",
+      "og_description": "Potężny edytor PDF online z funkcjami edycji, łączenia, dzielenia i konwersji"
+    },
+    "tr": {
+      "title": "PDF Master - Profesyonel Çevrimiçi PDF Düzenleyici | Ücretsiz PDF Araçları",
+      "description": "PDF Master, PDF düzenleme, birleştirme, bölme ve dönüştürme özellikleri sunan güçlü bir çevrimiçi PDF düzenleyicidir. 20 dili destekler, tamamen ücretsiz.",
+      "keywords": "PDF düzenleyici, PDF araçları, PDF dönüştürücü, PDF birleştir, PDF böl, çevrimiçi PDF, ücretsiz PDF düzenleyici, PDF Master, PDF imza, PDF açıklama",
+      "og_title": "PDF Master - Profesyonel Çevrimiçi PDF Düzenleyici",
+      "og_description": "Düzenleme, birleştirme, bölme ve dönüştürme özellikleriyle güçlü çevrimiçi PDF düzenleyici"
+    },
+    "vi": {
+      "title": "PDF Master - Trình chỉnh sửa PDF trực tuyến chuyên nghiệp | Công cụ PDF miễn phí",
+      "description": "PDF Master là trình chỉnh sửa PDF trực tuyến mạnh mẽ cung cấp chỉnh sửa, ghép, tách và chuyển đổi PDF. Hỗ trợ 20 ngôn ngữ, hoàn toàn miễn phí.",
+      "keywords": "trình chỉnh sửa PDF, công cụ PDF, chuyển đổi PDF, ghép PDF, tách PDF, PDF trực tuyến, trình chỉnh sửa PDF miễn phí, PDF Master, chữ ký PDF, chú thích PDF",
+      "og_title": "PDF Master - Trình chỉnh sửa PDF trực tuyến chuyên nghiệp",
+      "og_description": "Trình chỉnh sửa PDF trực tuyến mạnh mẽ với tính năng chỉnh sửa, ghép, tách và chuyển đổi"
+    },
+    "th": {
+      "title": "PDF Master - โปรแกรมแก้ไข PDF ออนไลน์ระดับมืออาชีพ | เครื่องมือ PDF ฟรี",
+      "description": "PDF Master เป็นโปรแกรมแก้ไข PDF ออนไลน์ที่ทรงพลัง มีฟีเจอร์แก้ไข รวม แยก และแปลง PDF รองรับ 20 ภาษา ใช้ฟรีทั้งหมด",
+      "keywords": "โปรแกรมแก้ไข PDF, เครื่องมือ PDF, ตัวแปลง PDF, รวม PDF, แยก PDF, PDF ออนไลน์, โปรแกรมแก้ไข PDF ฟรี, PDF Master, ลายเซ็น PDF, หมายเหตุ PDF",
+      "og_title": "PDF Master - โปรแกรมแก้ไข PDF ออนไลน์ระดับมืออาชีพ",
+      "og_description": "โปรแกรมแก้ไข PDF ออนไลน์ที่ทรงพลังพร้อมฟีเจอร์แก้ไข รวม แยก และแปลง"
+    },
+    "id": {
+      "title": "PDF Master - Editor PDF Online Profesional | Alat PDF Gratis",
+      "description": "PDF Master adalah editor PDF online yang kuat menawarkan pengeditan, penggabungan, pemisahan, dan konversi PDF. Mendukung 20 bahasa, sepenuhnya gratis.",
+      "keywords": "editor PDF, alat PDF, konverter PDF, gabung PDF, pisah PDF, PDF online, editor PDF gratis, PDF Master, tanda tangan PDF, anotasi PDF",
+      "og_title": "PDF Master - Editor PDF Online Profesional",
+      "og_description": "Editor PDF online yang kuat dengan fitur pengeditan, penggabungan, pemisahan, dan konversi"
+    },
+    "sv": {
+      "title": "PDF Master - Professionell online PDF-redigerare | Gratis PDF-verktyg",
+      "description": "PDF Master är en kraftfull online PDF-redigerare som erbjuder PDF-redigering, sammanslagning, delning och konvertering. Stöder 20 språk, helt gratis.",
+      "keywords": "PDF-redigerare, PDF-verktyg, PDF-konverterare, slå samman PDF, dela PDF, online PDF, gratis PDF-redigerare, PDF Master, PDF-signatur, PDF-anteckning",
+      "og_title": "PDF Master - Professionell online PDF-redigerare",
+      "og_description": "Kraftfull online PDF-redigerare med redigerings-, sammanslagnings-, delnings- och konverteringsfunktioner"
+    }
+  },
+  "global_features": [
+    "PDF Editing",
+    "PDF Merging",
+    "PDF Splitting",
+    "PDF Conversion",
+    "Digital Signatures",
+    "Annotations",
+    "Form Filling",
+    "OCR Text Recognition",
+    "Watermarks",
+    "Page Rotation",
+    "Compression",
+    "Encryption",
+    "20+ Languages",
+    "Cloud Storage Integration",
+    "Real-time Collaboration"
+  ],
+  "target_keywords": {
+    "primary": [
+      "PDF editor",
+      "online PDF editor",
+      "free PDF editor",
+      "PDF tools",
+      "PDF converter"
+    ],
+    "secondary": [
+      "edit PDF online",
+      "merge PDF",
+      "split PDF",
+      "convert PDF",
+      "PDF signature",
+      "PDF annotation",
+      "PDF form filler",
+      "compress PDF",
+      "rotate PDF",
+      "watermark PDF"
+    ],
+    "long_tail": [
+      "how to edit PDF online free",
+      "best free online PDF editor",
+      "PDF editor no download",
+      "PDF editor without watermark",
+      "professional PDF editing tools",
+      "PDF editor for business",
+      "secure online PDF editor",
+      "PDF editor with digital signature"
+    ]
+  }
+} 

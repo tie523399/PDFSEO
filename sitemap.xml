@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    <!-- 主頁 -->
+    <url>
+        <loc>https://pdfmaster.com/</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+        <xhtml:link rel="alternate" hreflang="zh-TW" href="https://pdfmaster.com/zh-tw"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://pdfmaster.com/en"/>
+        <xhtml:link rel="alternate" hreflang="zh-CN" href="https://pdfmaster.com/zh-cn"/>
+        <xhtml:link rel="alternate" hreflang="ja" href="https://pdfmaster.com/ja"/>
+        <xhtml:link rel="alternate" hreflang="ko" href="https://pdfmaster.com/ko"/>
+        <xhtml:link rel="alternate" hreflang="es" href="https://pdfmaster.com/es"/>
+        <xhtml:link rel="alternate" hreflang="fr" href="https://pdfmaster.com/fr"/>
+        <xhtml:link rel="alternate" hreflang="de" href="https://pdfmaster.com/de"/>
+        <xhtml:link rel="alternate" hreflang="pt" href="https://pdfmaster.com/pt"/>
+        <xhtml:link rel="alternate" hreflang="ru" href="https://pdfmaster.com/ru"/>
+        <xhtml:link rel="alternate" hreflang="ar" href="https://pdfmaster.com/ar"/>
+        <xhtml:link rel="alternate" hreflang="hi" href="https://pdfmaster.com/hi"/>
+        <xhtml:link rel="alternate" hreflang="it" href="https://pdfmaster.com/it"/>
+        <xhtml:link rel="alternate" hreflang="nl" href="https://pdfmaster.com/nl"/>
+        <xhtml:link rel="alternate" hreflang="pl" href="https://pdfmaster.com/pl"/>
+        <xhtml:link rel="alternate" hreflang="tr" href="https://pdfmaster.com/tr"/>
+        <xhtml:link rel="alternate" hreflang="vi" href="https://pdfmaster.com/vi"/>
+        <xhtml:link rel="alternate" hreflang="th" href="https://pdfmaster.com/th"/>
+        <xhtml:link rel="alternate" hreflang="id" href="https://pdfmaster.com/id"/>
+        <xhtml:link rel="alternate" hreflang="sv" href="https://pdfmaster.com/sv"/>
+        <xhtml:link rel="alternate" hreflang="x-default" href="https://pdfmaster.com/"/>
+    </url>
+    
+    <!-- 繁體中文 -->
+    <url>
+        <loc>https://pdfmaster.com/zh-tw</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- English -->
+    <url>
+        <loc>https://pdfmaster.com/en</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- 简体中文 -->
+    <url>
+        <loc>https://pdfmaster.com/zh-cn</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- 日本語 -->
+    <url>
+        <loc>https://pdfmaster.com/ja</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- 한국어 -->
+    <url>
+        <loc>https://pdfmaster.com/ko</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Español -->
+    <url>
+        <loc>https://pdfmaster.com/es</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Français -->
+    <url>
+        <loc>https://pdfmaster.com/fr</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Deutsch -->
+    <url>
+        <loc>https://pdfmaster.com/de</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Português -->
+    <url>
+        <loc>https://pdfmaster.com/pt</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Русский -->
+    <url>
+        <loc>https://pdfmaster.com/ru</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- العربية -->
+    <url>
+        <loc>https://pdfmaster.com/ar</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- हिन्दी -->
+    <url>
+        <loc>https://pdfmaster.com/hi</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Italiano -->
+    <url>
+        <loc>https://pdfmaster.com/it</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Nederlands -->
+    <url>
+        <loc>https://pdfmaster.com/nl</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Polski -->
+    <url>
+        <loc>https://pdfmaster.com/pl</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Türkçe -->
+    <url>
+        <loc>https://pdfmaster.com/tr</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Tiếng Việt -->
+    <url>
+        <loc>https://pdfmaster.com/vi</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- ไทย -->
+    <url>
+        <loc>https://pdfmaster.com/th</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Bahasa Indonesia -->
+    <url>
+        <loc>https://pdfmaster.com/id</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Svenska -->
+    <url>
+        <loc>https://pdfmaster.com/sv</loc>
+        <lastmod>2024-01-01</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+</urlset> 
