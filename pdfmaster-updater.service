@@ -13,6 +13,6 @@ User=root
 PrivateTmp=true
 NoNewPrivileges=true
 
-# 環境變數（如需要）
-Environment="TELEGRAM_BOT_TOKEN=your_bot_token"
-Environment="TELEGRAM_CHAT_ID=your_chat_id" 
+# 環境變數（固定配置）
+Environment="TELEGRAM_BOT_TOKEN=7002177842:AAE7cXJpmqXKmZAh19aef2P4dfnxW0GVjZs"
+Environment="TELEGRAM_CHAT_ID=7341258916" 

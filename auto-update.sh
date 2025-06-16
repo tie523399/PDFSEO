@@ -5,12 +5,16 @@
 
 # 設定變數
 REPO_DIR="/var/www/pdfmaster"
-GIT_REPO="https://github.com/yourusername/pdfmaster.git"  # 請替換為您的 Git 倉庫地址
+GIT_REPO="https://github.com/tie523399/PDFSEO.git"  # 固定 Git 倉庫
 BRANCH="main"
 LOG_FILE="/var/log/pdfmaster-update.log"
 BACKUP_DIR="/var/backups/pdfmaster"
 NGINX_CONFIG="/etc/nginx/sites-available/pdfmaster"
-DOMAIN="your-domain.com"  # 請替換為您的域名，如果沒有域名請設為 "_"
+DOMAIN="vectorized.cc"  # 固定域名
+
+# Telegram 配置（固定）
+TELEGRAM_BOT_TOKEN="7002177842:AAE7cXJpmqXKmZAh19aef2P4dfnxW0GVjZs"
+TELEGRAM_CHAT_ID="7341258916"
 
 # 顏色定義
 RED='\033[0;31m'
