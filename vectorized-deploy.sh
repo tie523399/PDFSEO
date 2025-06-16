@@ -45,10 +45,14 @@ mkdir -p /var/backups/pdfmaster
 echo -e "${YELLOW}部署應用程式...${NC}"
 if [ -d "$APP_DIR/.git" ]; then
     cd $APP_DIR
+    # 解決 Git 安全目錄問題
+    git config --global --add safe.directory $APP_DIR
     git pull origin main
 else
     git clone $REPO_URL $APP_DIR
     cd $APP_DIR
+    # 解決 Git 安全目錄問題
+    git config --global --add safe.directory $APP_DIR
 fi
 
 # 設置權限
