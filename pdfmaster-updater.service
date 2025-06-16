@@ -1,0 +1,18 @@
+[Unit]
+Description=PDF Master Auto Updater
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/auto-update.sh
+StandardOutput=journal
+StandardError=journal
+
+# 安全設定
+User=root
+PrivateTmp=true
+NoNewPrivileges=true
+
+# 環境變數（如需要）
+Environment="TELEGRAM_BOT_TOKEN=your_bot_token"
+Environment="TELEGRAM_CHAT_ID=your_chat_id" 

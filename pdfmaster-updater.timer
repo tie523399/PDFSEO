@@ -1,0 +1,14 @@
+[Unit]
+Description=Run PDF Master Auto Updater every 30 minutes
+Requires=pdfmaster-updater.service
+
+[Timer]
+# 每 30 分鐘執行一次
+OnCalendar=*:0/30
+# 系統啟動後 5 分鐘開始第一次檢查
+OnBootSec=5min
+# 如果錯過了執行時間，立即執行
+Persistent=true
+
+[Install]
+WantedBy=timers.target 
