@@ -121,12 +121,11 @@ install_dependencies() {
 check_and_fix_ssl() {
     log "檢查 SSL 配置..."
     
-    # 檢查是否有 SSL 證書
-    if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ] || [ ! -f "/etc/letsencrypt/live/$DOMAIN/privkey.pem" ]; then
-        log "SSL 證書不存在，暫時禁用 HTTPS"
-        
-        # 創建臨時的 HTTP-only 配置
-        cat > /etc/nginx/sites-available/pdfmaster-temp << 'EOF'
+    # 確保主配置文件存在
+    if [ ! -f "/etc/nginx/sites-available/pdfmaster" ]; then
+        log "創建主 Nginx 配置..."
+        cat > /etc/nginx/sites-available/pdfmaster << 'EOF'
+# PDF Master 主配置
 server {
     listen 80;
     server_name _;
@@ -134,40 +133,115 @@ server {
     root /var/www/pdfmaster;
     index index.html;
     
-    location / {
-        try_files $uri $uri/ /index.html;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+        try_files $uri =404;
     }
     
-    location ~* \.(jpg|jpeg|png|gif|ico|css|js|pdf)$ {
+    location / {
+        try_files $uri $uri/ /index.html;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+    }
+    
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|pdf|woff|woff2|ttf|svg)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+    
+    location /api {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+    
+    location /health {
+        access_log off;
+        return 200 "OK\n";
+        add_header Content-Type text/plain;
     }
 }
+
+# 條件包含 SSL 配置
+include /etc/nginx/sites-available/pdfmaster-ssl-active.conf;
 EOF
+        ln -sf /etc/nginx/sites-available/pdfmaster /etc/nginx/sites-enabled/pdfmaster
+    fi
+    
+    # 檢查是否有 SSL 證書
+    if [ -n "$DOMAIN" ] && [ "$DOMAIN" != "_" ] && [ -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ]; then
+        log "SSL 證書存在，啟用 HTTPS 配置"
         
-        # 啟用臨時配置
-        ln -sf /etc/nginx/sites-available/pdfmaster-temp /etc/nginx/sites-enabled/pdfmaster
+        # 創建 SSL 配置
+        cat > /etc/nginx/sites-available/pdfmaster-ssl-active.conf << EOF
+# SSL 配置 - 自動生成
+server {
+    listen 443 ssl http2;
+    server_name $DOMAIN;
+    
+    root /var/www/pdfmaster;
+    index index.html;
+    
+    ssl_certificate /etc/letsencrypt/live/$DOMAIN/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN/privkey.pem;
+    
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
+    ssl_prefer_server_ciphers off;
+    
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    
+    location / {
+        try_files \$uri \$uri/ /index.html;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+    }
+    
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|pdf|woff|woff2|ttf|svg)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        access_log off;
+    }
+    
+    location /api {
+        proxy_pass http://localhost:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host \$host;
+        proxy_cache_bypass \$http_upgrade;
+    }
+}
+
+# HTTP 到 HTTPS 重定向
+server {
+    listen 80;
+    server_name $DOMAIN;
+    return 301 https://\$server_name\$request_uri;
+}
+EOF
+    else
+        log "SSL 證書不存在或未配置域名，使用 HTTP only 模式"
+        # 創建空的 SSL 配置文件以避免 include 錯誤
+        echo "# SSL 未啟用" > /etc/nginx/sites-available/pdfmaster-ssl-active.conf
         
-        # 測試配置
-        if nginx -t &>/dev/null; then
-            systemctl reload nginx
-            log "Nginx 已使用臨時 HTTP 配置啟動"
-            
-            # 嘗試獲取 SSL 證書
-            if [ -n "$DOMAIN" ] && [ "$DOMAIN" != "_" ]; then
-                log "嘗試為 $DOMAIN 獲取 SSL 證書..."
-                if certbot certonly --nginx -d "$DOMAIN" --non-interactive --agree-tos --email admin@$DOMAIN; then
-                    log "SSL 證書獲取成功"
-                    # 恢復完整配置
-                    ln -sf /etc/nginx/sites-available/pdfmaster /etc/nginx/sites-enabled/pdfmaster
-                    systemctl reload nginx
-                else
-                    log "SSL 證書獲取失敗，繼續使用 HTTP"
-                fi
+        # 如果有域名但沒有證書，嘗試獲取
+        if [ -n "$DOMAIN" ] && [ "$DOMAIN" != "_" ]; then
+            log "嘗試為 $DOMAIN 獲取 SSL 證書..."
+            mkdir -p /var/www/certbot
+            if certbot certonly --webroot -w /var/www/certbot -d "$DOMAIN" --non-interactive --agree-tos --email admin@$DOMAIN; then
+                log "SSL 證書獲取成功，重新配置..."
+                check_and_fix_ssl  # 遞歸調用以應用 SSL 配置
+            else
+                log "SSL 證書獲取失敗，繼續使用 HTTP"
             fi
         fi
-    else
-        log "SSL 證書存在，使用完整配置"
     fi
 }
 
