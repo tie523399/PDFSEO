@@ -33,6 +33,10 @@ BRANCH=${BRANCH:-main}
 read -p "請輸入專案部署目錄 (預設: /var/www/pdfmaster): " REPO_DIR
 REPO_DIR=${REPO_DIR:-/var/www/pdfmaster}
 
+# 詢問域名
+read -p "請輸入您的域名 (如果沒有域名，請直接按 Enter): " DOMAIN
+DOMAIN=${DOMAIN:-_}
+
 # 詢問是否配置 Telegram 通知
 read -p "是否要配置 Telegram 通知? (y/n): " SETUP_TELEGRAM
 if [ "$SETUP_TELEGRAM" = "y" ]; then
@@ -68,6 +72,7 @@ chmod +x /usr/local/bin/auto-update.sh
 sed -i "s|^GIT_REPO=.*|GIT_REPO=\"$GIT_REPO\"|" /usr/local/bin/auto-update.sh
 sed -i "s|^BRANCH=.*|BRANCH=\"$BRANCH\"|" /usr/local/bin/auto-update.sh
 sed -i "s|^REPO_DIR=.*|REPO_DIR=\"$REPO_DIR\"|" /usr/local/bin/auto-update.sh
+sed -i "s|^DOMAIN=.*|DOMAIN=\"$DOMAIN\"|" /usr/local/bin/auto-update.sh
 
 # 3. 複製 systemd 服務文件
 echo "2. 安裝 systemd 服務..."

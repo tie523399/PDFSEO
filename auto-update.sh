@@ -10,6 +10,7 @@ BRANCH="main"
 LOG_FILE="/var/log/pdfmaster-update.log"
 BACKUP_DIR="/var/backups/pdfmaster"
 NGINX_CONFIG="/etc/nginx/sites-available/pdfmaster"
+DOMAIN="your-domain.com"  # 請替換為您的域名，如果沒有域名請設為 "_"
 
 # 顏色定義
 RED='\033[0;31m'
@@ -116,16 +117,75 @@ install_dependencies() {
     fi
 }
 
+# 檢查並修復 SSL 配置
+check_and_fix_ssl() {
+    log "檢查 SSL 配置..."
+    
+    # 檢查是否有 SSL 證書
+    if [ ! -f "/etc/letsencrypt/live/$DOMAIN/fullchain.pem" ] || [ ! -f "/etc/letsencrypt/live/$DOMAIN/privkey.pem" ]; then
+        log "SSL 證書不存在，暫時禁用 HTTPS"
+        
+        # 創建臨時的 HTTP-only 配置
+        cat > /etc/nginx/sites-available/pdfmaster-temp << 'EOF'
+server {
+    listen 80;
+    server_name _;
+    
+    root /var/www/pdfmaster;
+    index index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js|pdf)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+}
+EOF
+        
+        # 啟用臨時配置
+        ln -sf /etc/nginx/sites-available/pdfmaster-temp /etc/nginx/sites-enabled/pdfmaster
+        
+        # 測試配置
+        if nginx -t &>/dev/null; then
+            systemctl reload nginx
+            log "Nginx 已使用臨時 HTTP 配置啟動"
+            
+            # 嘗試獲取 SSL 證書
+            if [ -n "$DOMAIN" ] && [ "$DOMAIN" != "_" ]; then
+                log "嘗試為 $DOMAIN 獲取 SSL 證書..."
+                if certbot certonly --nginx -d "$DOMAIN" --non-interactive --agree-tos --email admin@$DOMAIN; then
+                    log "SSL 證書獲取成功"
+                    # 恢復完整配置
+                    ln -sf /etc/nginx/sites-available/pdfmaster /etc/nginx/sites-enabled/pdfmaster
+                    systemctl reload nginx
+                else
+                    log "SSL 證書獲取失敗，繼續使用 HTTP"
+                fi
+            fi
+        fi
+    else
+        log "SSL 證書存在，使用完整配置"
+    fi
+}
+
 # 重啟服務
 restart_services() {
     log "重啟服務..."
+    
+    # 先檢查和修復 SSL
+    check_and_fix_ssl
     
     # 測試 Nginx 配置
     if nginx -t &>/dev/null; then
         systemctl reload nginx
         log "Nginx 重新載入成功"
     else
-        error_exit "Nginx 配置測試失敗"
+        # 如果還是失敗，嘗試使用臨時配置
+        log "Nginx 配置測試失敗，嘗試修復..."
+        check_and_fix_ssl
     fi
     
     # 如果有 Node.js 應用
