@@ -1463,6 +1463,24 @@
                     </button>
                 </div>
             </div>
+            
+            <div class="bot-section">
+                <h4>📱 Telegram Bot</h4>
+                <div class="bot-buttons">
+                    <button class="bot-btn" onclick="botAction('telegramConnect')">
+                        <i class="fab fa-telegram"></i> 連接 Bot
+                    </button>
+                    <button class="bot-btn" onclick="botAction('telegramBroadcast')">
+                        <i class="fas fa-broadcast-tower"></i> 廣播訊息
+                    </button>
+                    <button class="bot-btn" onclick="botAction('telegramStats')">
+                        <i class="fas fa-chart-line"></i> Bot 統計
+                    </button>
+                    <button class="bot-btn" onclick="botAction('telegramSettings')">
+                        <i class="fas fa-cogs"></i> Bot 設定
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -3788,6 +3806,19 @@
                 case 'botSettings':
                     showBotSettings();
                     break;
+                // Telegram Bot 功能
+                case 'telegramConnect':
+                    connectTelegramBot();
+                    break;
+                case 'telegramBroadcast':
+                    showTelegramBroadcastModal();
+                    break;
+                case 'telegramStats':
+                    showTelegramStats();
+                    break;
+                case 'telegramSettings':
+                    showTelegramSettings();
+                    break;
                 default:
                     console.log('Unknown bot action:', action);
             }
@@ -3953,7 +3984,66 @@
         window.onload = function() {
             initializeApp();
             initializeNewsSystem();
+            
+            // 載入保存的 Telegram Bot Token
+            const savedToken = localStorage.getItem('telegram_bot_token');
+            if (savedToken && typeof TelegramBot !== 'undefined') {
+                TelegramBot.config.botToken = savedToken;
+                console.log('✅ Telegram Bot Token 已載入');
+            }
         };
+        
+        // Telegram Bot 整合功能
+        function connectTelegramBot() {
+            const token = prompt('請輸入您的 Telegram Bot Token:\n\n如何獲取：\n1. 在 Telegram 搜尋 @BotFather\n2. 發送 /newbot 創建新 Bot\n3. 複製 Token 貼到這裡');
+            if (token && typeof TelegramBot !== 'undefined') {
+                TelegramBot.config.botToken = token;
+                TelegramBot.testConnection().then(success => {
+                    if (success) {
+                        alert('✅ Telegram Bot 連接成功！');
+                        localStorage.setItem('telegram_bot_token', token);
+                    } else {
+                        alert('❌ 連接失敗，請檢查 Token 是否正確。');
+                    }
+                });
+            }
+        }
+
+        function showTelegramBroadcastModal() {
+            const message = prompt('請輸入要廣播的訊息：');
+            if (message && typeof TelegramBot !== 'undefined') {
+                if (TelegramBot.config.botToken) {
+                    TelegramBot.broadcastMessage(message).then(results => {
+                        const successCount = results.filter(r => r.success).length;
+                        alert(`📢 廣播完成！\n成功發送：${successCount} 個\n失敗：${results.length - successCount} 個`);
+                    });
+                } else {
+                    alert('請先連接 Telegram Bot！');
+                }
+            }
+        }
+
+        function showTelegramStats() {
+            if (typeof TelegramBot === 'undefined') {
+                alert('Telegram Bot 模組未載入');
+                return;
+            }
+            const subscribers = JSON.parse(localStorage.getItem('tg_subscribers') || '[]');
+            alert(`📊 Telegram Bot 統計\n\n訂閱用戶：${subscribers.length} 人\nBot 狀態：${TelegramBot.config.botToken ? '已連接' : '未連接'}`);
+        }
+
+        function showTelegramSettings() {
+            if (typeof TelegramBot === 'undefined') {
+                alert('Telegram Bot 模組未載入');
+                return;
+            }
+            const currentToken = TelegramBot.config.botToken || '未設定';
+            const settings = `⚙️ Telegram Bot 設定\n\n當前 Token: ${currentToken.substring(0, 10)}...\nWebhook URL: ${TelegramBot.config.webhookUrl}\n\n可用命令：\n${Object.entries(TelegramBot.config.commands).map(([cmd, desc]) => `${cmd} - ${desc}`).join('\n')}`;
+            alert(settings);
+        }
     </script>
+    
+    <!-- 載入 Telegram Bot 模組 -->
+    <script src="telegram-bot.js"></script>
 </body>
 </html>
