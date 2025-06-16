@@ -1182,6 +1182,27 @@
                     <i class="fas fa-sort"></i>
                 </button>
             </div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="rotatePage" onclick="rotatePage(90)">
+                    <i class="fas fa-redo-alt"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="extractText" onclick="extractText()">
+                    <i class="fas fa-file-alt"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="addWatermark" onclick="addWatermark()">
+                    <i class="fas fa-tint"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="mergePDF" onclick="mergePDFs()">
+                    <i class="fas fa-object-group"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="splitPDF" onclick="splitPDF()">
+                    <i class="fas fa-cut"></i>
+                </button>
+            </div>
         </div>
         
         <button class="tool-btn" data-tooltip="settings" onclick="openSettings()">
@@ -3993,6 +4014,373 @@
             }
         };
         
+        // PDF 核心功能實現
+        
+        // 開啟檔案
+        function openFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.pdf';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file && file.type === 'application/pdf') {
+                    loadPDF(file);
+                }
+            };
+            input.click();
+        }
+        
+        // 儲存 PDF
+        async function savePDF() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            updateStatus('正在儲存 PDF...');
+            
+            try {
+                // 儲存當前頁面狀態
+                saveCurrentPageState();
+                
+                // 使用 jsPDF 創建新的 PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF();
+                
+                for (let i = 1; i <= AppState.totalPages; i++) {
+                    if (i > 1) pdf.addPage();
+                    
+                    // 渲染原始 PDF 頁面
+                    const page = await AppState.pdfDoc.getPage(i);
+                    const viewport = page.getViewport({ scale: 2 });
+                    
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise;
+                    
+                    // 添加到 PDF
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                    const pdfHeight = pdf.internal.pageSize.getHeight();
+                    pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    
+                    // 如果有編輯內容，疊加上去
+                    if (AppState.pages[i] && AppState.pages[i].objects && AppState.pages[i].objects.length > 0) {
+                        const tempCanvas = new fabric.Canvas(null, {
+                            width: viewport.width,
+                            height: viewport.height
+                        });
+                        
+                        await new Promise((resolve) => {
+                            fabric.util.enlivenObjects(AppState.pages[i].objects, (objects) => {
+                                objects.forEach(obj => tempCanvas.add(obj));
+                                tempCanvas.renderAll();
+                                
+                                const editData = tempCanvas.toDataURL('image/png');
+                                pdf.addImage(editData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                                resolve();
+                            });
+                        });
+                    }
+                }
+                
+                // 下載 PDF
+                pdf.save('edited_document.pdf');
+                updateStatus('PDF 已儲存');
+                
+            } catch (error) {
+                console.error('儲存 PDF 時發生錯誤:', error);
+                alert('儲存 PDF 時發生錯誤');
+                updateStatus('儲存失敗');
+            }
+        }
+        
+        // 新增頁面
+        function addPage() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            // 在當前頁面後插入新頁面
+            const newPageNum = AppState.currentPage + 1;
+            
+            // 重新排列後面的頁面
+            for (let i = AppState.totalPages; i >= newPageNum; i--) {
+                AppState.pages[i + 1] = AppState.pages[i] || { objects: [] };
+            }
+            
+            // 創建新頁面
+            AppState.pages[newPageNum] = { objects: [] };
+            AppState.totalPages++;
+            
+            // 更新縮圖
+            generateThumbnails();
+            
+            // 跳轉到新頁面
+            goToPage(newPageNum);
+            
+            updateStatus('已新增頁面');
+        }
+        
+        // 刪除頁面
+        function deletePage() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            if (AppState.totalPages <= 1) {
+                alert('無法刪除最後一頁');
+                return;
+            }
+            
+            if (confirm(`確定要刪除第 ${AppState.currentPage} 頁嗎？`)) {
+                // 刪除當前頁面
+                delete AppState.pages[AppState.currentPage];
+                
+                // 重新排列後面的頁面
+                for (let i = AppState.currentPage + 1; i <= AppState.totalPages; i++) {
+                    AppState.pages[i - 1] = AppState.pages[i] || { objects: [] };
+                }
+                delete AppState.pages[AppState.totalPages];
+                
+                AppState.totalPages--;
+                
+                // 如果刪除的是最後一頁，跳到前一頁
+                if (AppState.currentPage > AppState.totalPages) {
+                    AppState.currentPage = AppState.totalPages;
+                }
+                
+                // 更新縮圖
+                generateThumbnails();
+                
+                // 重新渲染當前頁
+                renderPage(AppState.currentPage);
+                
+                updateStatus('已刪除頁面');
+            }
+        }
+        
+        // 頁面重新排序
+        function reorderPages() {
+            // 顯示頁面排序對話框
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>頁面排序</span>
+                    </div>
+                    <div class="modal-body">
+                        <p>拖放頁面縮圖以重新排序</p>
+                        <div id="sortable-pages" style="display: flex; flex-wrap: wrap; gap: 10px; max-height: 400px; overflow-y: auto;">
+                            ${generateSortablePages()}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="applyPageOrder()">確定</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // 初始化拖放功能
+            initializeSortable();
+        }
+        
+        function generateSortablePages() {
+            let html = '';
+            for (let i = 1; i <= AppState.totalPages; i++) {
+                html += `
+                    <div class="sortable-page" data-page="${i}" style="cursor: move; padding: 10px; border: 1px solid #ccc; background: white;">
+                        <img src="${document.querySelector(`.page-item:nth-child(${i}) img`).src}" style="width: 100px; height: auto;">
+                        <div style="text-align: center;">第 ${i} 頁</div>
+                    </div>
+                `;
+            }
+            return html;
+        }
+        
+        function initializeSortable() {
+            const container = document.getElementById('sortable-pages');
+            let draggedElement = null;
+            
+            container.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('sortable-page')) {
+                    draggedElement = e.target;
+                    e.target.style.opacity = '0.5';
+                }
+            });
+            
+            container.addEventListener('dragend', (e) => {
+                if (e.target.classList.contains('sortable-page')) {
+                    e.target.style.opacity = '';
+                }
+            });
+            
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const afterElement = getDragAfterElement(container, e.clientX);
+                if (afterElement == null) {
+                    container.appendChild(draggedElement);
+                } else {
+                    container.insertBefore(draggedElement, afterElement);
+                }
+            });
+            
+            // 為每個頁面添加 draggable 屬性
+            container.querySelectorAll('.sortable-page').forEach(page => {
+                page.draggable = true;
+            });
+        }
+        
+        function getDragAfterElement(container, x) {
+            const draggableElements = [...container.querySelectorAll('.sortable-page:not(.dragging)')];
+            
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offset = x - box.left - box.width / 2;
+                
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: child };
+                } else {
+                    return closest;
+                }
+            }, { offset: Number.NEGATIVE_INFINITY }).element;
+        }
+        
+        function applyPageOrder() {
+            const sortedPages = document.querySelectorAll('#sortable-pages .sortable-page');
+            const newOrder = Array.from(sortedPages).map(page => parseInt(page.dataset.page));
+            
+            // 重新排列頁面
+            const newPages = {};
+            newOrder.forEach((oldPageNum, newIndex) => {
+                newPages[newIndex + 1] = AppState.pages[oldPageNum] || { objects: [] };
+            });
+            
+            AppState.pages = newPages;
+            
+            // 關閉模態框
+            document.querySelector('.modal.active').remove();
+            
+            // 更新縮圖
+            generateThumbnails();
+            
+            // 重新渲染當前頁
+            renderPage(AppState.currentPage);
+            
+            updateStatus('頁面順序已更新');
+        }
+        
+        // 右鍵選單功能
+        function showContextMenu(e) {
+            e.preventDefault();
+            
+            const menu = document.getElementById('context-menu');
+            menu.style.left = e.pageX + 'px';
+            menu.style.top = e.pageY + 'px';
+            menu.style.display = 'block';
+            
+            // 點擊其他地方關閉選單
+            document.addEventListener('click', hideContextMenu);
+        }
+        
+        function hideContextMenu() {
+            document.getElementById('context-menu').style.display = 'none';
+            document.removeEventListener('click', hideContextMenu);
+        }
+        
+        function contextAction(action) {
+            switch (action) {
+                case 'cut':
+                    cut();
+                    break;
+                case 'copy':
+                    copy();
+                    break;
+                case 'paste':
+                    paste();
+                    break;
+                case 'delete':
+                    deleteSelected();
+                    break;
+                case 'bringToFront':
+                    if (AppState.selectedObject) {
+                        AppState.selectedObject.bringToFront();
+                        AppState.fabricCanvas.renderAll();
+                        saveToHistory();
+                    }
+                    break;
+                case 'sendToBack':
+                    if (AppState.selectedObject) {
+                        AppState.selectedObject.sendToBack();
+                        AppState.fabricCanvas.renderAll();
+                        saveToHistory();
+                    }
+                    break;
+            }
+            hideContextMenu();
+        }
+        
+        // 鍵盤快捷鍵
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key.toLowerCase()) {
+                    case 'z':
+                        if (e.shiftKey) {
+                            redo();
+                        } else {
+                            undo();
+                        }
+                        e.preventDefault();
+                        break;
+                    case 'y':
+                        redo();
+                        e.preventDefault();
+                        break;
+                    case 'c':
+                        copy();
+                        e.preventDefault();
+                        break;
+                    case 'x':
+                        cut();
+                        e.preventDefault();
+                        break;
+                    case 'v':
+                        paste();
+                        e.preventDefault();
+                        break;
+                    case 's':
+                        savePDF();
+                        e.preventDefault();
+                        break;
+                    case 'o':
+                        openFile();
+                        e.preventDefault();
+                        break;
+                }
+            } else if (e.key === 'Delete') {
+                deleteSelected();
+            }
+        });
+        
+        // 添加右鍵選單到 canvas
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvasContainer = document.querySelector('.pdf-canvas-container');
+            if (canvasContainer) {
+                canvasContainer.addEventListener('contextmenu', showContextMenu);
+            }
+        });
+        
         // Telegram Bot 整合功能
         function connectTelegramBot() {
             const token = prompt('請輸入您的 Telegram Bot Token:\n\n如何獲取：\n1. 在 Telegram 搜尋 @BotFather\n2. 發送 /newbot 創建新 Bot\n3. 複製 Token 貼到這裡');
@@ -4041,6 +4429,612 @@
             const settings = `⚙️ Telegram Bot 設定\n\n當前 Token: ${currentToken.substring(0, 10)}...\nWebhook URL: ${TelegramBot.config.webhookUrl}\n\n可用命令：\n${Object.entries(TelegramBot.config.commands).map(([cmd, desc]) => `${cmd} - ${desc}`).join('\n')}`;
             alert(settings);
         }
+        
+        // 添加圖片功能
+        function addImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        fabric.Image.fromURL(event.target.result, (img) => {
+                            // 調整圖片大小以適應畫布
+                            const scale = Math.min(
+                                200 / img.width,
+                                200 / img.height
+                            );
+                            img.scale(scale);
+                            img.set({
+                                left: 100,
+                                top: 100
+                            });
+                            AppState.fabricCanvas.add(img);
+                            AppState.fabricCanvas.setActiveObject(img);
+                            saveToHistory();
+                            updateStatus('已添加圖片');
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+        
+        // 添加印章功能
+        function addStamp(stampType) {
+            const stamps = {
+                approved: {
+                    text: '已批准\nAPPROVED',
+                    color: '#28a745'
+                },
+                rejected: {
+                    text: '已拒絕\nREJECTED',
+                    color: '#dc3545'
+                },
+                confidential: {
+                    text: '機密\nCONFIDENTIAL',
+                    color: '#dc3545'
+                },
+                draft: {
+                    text: '草稿\nDRAFT',
+                    color: '#6c757d'
+                },
+                copy: {
+                    text: '副本\nCOPY',
+                    color: '#17a2b8'
+                },
+                original: {
+                    text: '正本\nORIGINAL',
+                    color: '#007bff'
+                }
+            };
+            
+            const stamp = stamps[stampType] || stamps.approved;
+            
+            // 創建印章群組
+            const rect = new fabric.Rect({
+                width: 120,
+                height: 60,
+                fill: 'transparent',
+                stroke: stamp.color,
+                strokeWidth: 3,
+                rx: 5,
+                ry: 5
+            });
+            
+            const text = new fabric.Text(stamp.text, {
+                fontSize: 16,
+                fontWeight: 'bold',
+                fill: stamp.color,
+                textAlign: 'center',
+                originX: 'center',
+                originY: 'center'
+            });
+            
+            const group = new fabric.Group([rect, text], {
+                left: 150,
+                top: 150,
+                angle: -15
+            });
+            
+            AppState.fabricCanvas.add(group);
+            AppState.fabricCanvas.setActiveObject(group);
+            saveToHistory();
+            updateStatus('已添加印章');
+            
+            // 關閉模態框
+            closeModal('stamp-modal');
+        }
+        
+        // 添加簽名功能
+        let signaturePad = null;
+        
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signature-canvas');
+            if (canvas && typeof SignaturePad !== 'undefined') {
+                signaturePad = new SignaturePad(canvas, {
+                    backgroundColor: 'white',
+                    penColor: 'black'
+                });
+                
+                // 調整畫布大小
+                resizeSignatureCanvas();
+            }
+        }
+        
+        function resizeSignatureCanvas() {
+            const canvas = document.getElementById('signature-canvas');
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext('2d').scale(ratio, ratio);
+            
+            if (signaturePad) {
+                signaturePad.clear();
+            }
+        }
+        
+        function clearSignature() {
+            if (signaturePad) {
+                signaturePad.clear();
+            }
+        }
+        
+        function saveSignature() {
+            if (signaturePad && !signaturePad.isEmpty()) {
+                const dataURL = signaturePad.toDataURL();
+                fabric.Image.fromURL(dataURL, (img) => {
+                    img.set({
+                        left: 100,
+                        top: 100,
+                        scaleX: 0.5,
+                        scaleY: 0.5
+                    });
+                    AppState.fabricCanvas.add(img);
+                    AppState.fabricCanvas.setActiveObject(img);
+                    saveToHistory();
+                    updateStatus('已添加簽名');
+                });
+                
+                closeModal('signature-modal');
+                clearSignature();
+            } else {
+                alert('請先繪製簽名');
+            }
+        }
+        
+        // 旋轉頁面功能
+        function rotatePage(angle) {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            // 儲存當前旋轉角度
+            if (!AppState.pageRotations) {
+                AppState.pageRotations = {};
+            }
+            
+            const currentRotation = AppState.pageRotations[AppState.currentPage] || 0;
+            AppState.pageRotations[AppState.currentPage] = (currentRotation + angle) % 360;
+            
+            // 重新渲染頁面
+            renderPage(AppState.currentPage);
+            updateStatus(`頁面已旋轉 ${angle}°`);
+        }
+        
+        // 提取文字功能
+        async function extractText() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            updateStatus('正在提取文字...');
+            
+            try {
+                let fullText = '';
+                
+                for (let i = 1; i <= AppState.totalPages; i++) {
+                    const page = await AppState.pdfDoc.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += `\n--- 第 ${i} 頁 ---\n${pageText}\n`;
+                }
+                
+                // 顯示提取的文字
+                showTextModal(fullText);
+                updateStatus('文字提取完成');
+                
+            } catch (error) {
+                console.error('提取文字時發生錯誤:', error);
+                alert('提取文字時發生錯誤');
+                updateStatus('提取失敗');
+            }
+        }
+        
+        function showTextModal(text) {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 800px;">
+                    <div class="modal-header">
+                        <span>提取的文字內容</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <textarea style="width: 100%; height: 400px; font-family: monospace;" readonly>${text}</textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="copyExtractedText(this)">複製文字</button>
+                        <button class="btn btn-secondary" onclick="downloadExtractedText('${encodeURIComponent(text)}')">下載為 TXT</button>
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">關閉</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        function copyExtractedText(button) {
+            const textarea = button.closest('.modal').querySelector('textarea');
+            textarea.select();
+            document.execCommand('copy');
+            button.textContent = '已複製！';
+            setTimeout(() => {
+                button.textContent = '複製文字';
+            }, 2000);
+        }
+        
+        function downloadExtractedText(encodedText) {
+            const text = decodeURIComponent(encodedText);
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'extracted_text.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // 合併 PDF 功能
+        function mergePDFs() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>合併 PDF 檔案</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>選擇要合併的 PDF 檔案（可多選）：</p>
+                        <input type="file" id="merge-files" accept=".pdf" multiple>
+                        <div id="merge-file-list" style="margin-top: 10px;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="performMerge()">合併</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            document.getElementById('merge-files').onchange = (e) => {
+                const fileList = document.getElementById('merge-file-list');
+                fileList.innerHTML = Array.from(e.target.files)
+                    .map(file => `<div>• ${file.name}</div>`)
+                    .join('');
+            };
+        }
+        
+        async function performMerge() {
+            const files = document.getElementById('merge-files').files;
+            if (files.length < 2) {
+                alert('請選擇至少兩個 PDF 檔案');
+                return;
+            }
+            
+            updateStatus('正在合併 PDF...');
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const mergedPdf = new jsPDF();
+                let firstPage = true;
+                
+                for (const file of files) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
+                    
+                    for (let i = 1; i <= pdfDoc.numPages; i++) {
+                        if (!firstPage) {
+                            mergedPdf.addPage();
+                        }
+                        firstPage = false;
+                        
+                        const page = await pdfDoc.getPage(i);
+                        const viewport = page.getViewport({ scale: 2 });
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+                        
+                        await page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise;
+                        
+                        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                        const pdfWidth = mergedPdf.internal.pageSize.getWidth();
+                        const pdfHeight = mergedPdf.internal.pageSize.getHeight();
+                        mergedPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    }
+                }
+                
+                mergedPdf.save('merged_document.pdf');
+                document.querySelector('.modal.active').remove();
+                updateStatus('PDF 合併完成');
+                
+            } catch (error) {
+                console.error('合併 PDF 時發生錯誤:', error);
+                alert('合併 PDF 時發生錯誤');
+                updateStatus('合併失敗');
+            }
+        }
+        
+        // 分割 PDF 功能
+        function splitPDF() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>分割 PDF</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>選擇分割方式：</p>
+                        <div style="margin: 10px 0;">
+                            <label>
+                                <input type="radio" name="split-type" value="single" checked>
+                                每頁分割為單獨檔案
+                            </label>
+                        </div>
+                        <div style="margin: 10px 0;">
+                            <label>
+                                <input type="radio" name="split-type" value="range">
+                                按頁面範圍分割
+                            </label>
+                            <div id="range-options" style="display: none; margin-top: 10px;">
+                                <input type="text" id="page-ranges" placeholder="例如: 1-3,5,7-9" style="width: 200px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="performSplit()">分割</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // 切換選項顯示
+            modal.querySelectorAll('input[name="split-type"]').forEach(radio => {
+                radio.onchange = () => {
+                    document.getElementById('range-options').style.display = 
+                        radio.value === 'range' ? 'block' : 'none';
+                };
+            });
+        }
+        
+        async function performSplit() {
+            const splitType = document.querySelector('input[name="split-type"]:checked').value;
+            updateStatus('正在分割 PDF...');
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                
+                if (splitType === 'single') {
+                    // 每頁分割
+                    for (let i = 1; i <= AppState.totalPages; i++) {
+                        const pdf = new jsPDF();
+                        const page = await AppState.pdfDoc.getPage(i);
+                        const viewport = page.getViewport({ scale: 2 });
+                        
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+                        
+                        await page.render({
+                            canvasContext: context,
+                            viewport: viewport
+                        }).promise;
+                        
+                        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = pdf.internal.pageSize.getHeight();
+                        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                        
+                        pdf.save(`page_${i}.pdf`);
+                    }
+                } else {
+                    // 按範圍分割
+                    const ranges = parsePageRanges(document.getElementById('page-ranges').value);
+                    
+                    for (let rangeIndex = 0; rangeIndex < ranges.length; rangeIndex++) {
+                        const range = ranges[rangeIndex];
+                        const pdf = new jsPDF();
+                        let firstPage = true;
+                        
+                        for (const pageNum of range) {
+                            if (pageNum > 0 && pageNum <= AppState.totalPages) {
+                                if (!firstPage) {
+                                    pdf.addPage();
+                                }
+                                firstPage = false;
+                                
+                                const page = await AppState.pdfDoc.getPage(pageNum);
+                                const viewport = page.getViewport({ scale: 2 });
+                                
+                                const canvas = document.createElement('canvas');
+                                const context = canvas.getContext('2d');
+                                canvas.width = viewport.width;
+                                canvas.height = viewport.height;
+                                
+                                await page.render({
+                                    canvasContext: context,
+                                    viewport: viewport
+                                }).promise;
+                                
+                                const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                                const pdfWidth = pdf.internal.pageSize.getWidth();
+                                const pdfHeight = pdf.internal.pageSize.getHeight();
+                                pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                            }
+                        }
+                        
+                        pdf.save(`split_${rangeIndex + 1}.pdf`);
+                    }
+                }
+                
+                document.querySelector('.modal.active').remove();
+                updateStatus('PDF 分割完成');
+                
+            } catch (error) {
+                console.error('分割 PDF 時發生錯誤:', error);
+                alert('分割 PDF 時發生錯誤');
+                updateStatus('分割失敗');
+            }
+        }
+        
+        function parsePageRanges(input) {
+            const ranges = [];
+            const parts = input.split(',');
+            
+            for (const part of parts) {
+                const trimmed = part.trim();
+                if (trimmed.includes('-')) {
+                    const [start, end] = trimmed.split('-').map(n => parseInt(n));
+                    const range = [];
+                    for (let i = start; i <= end; i++) {
+                        range.push(i);
+                    }
+                    ranges.push(range);
+                } else {
+                    ranges.push([parseInt(trimmed)]);
+                }
+            }
+            
+            return ranges;
+        }
+        
+        // 添加水印功能
+        function addWatermark() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <span>添加水印</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 10px;">
+                            <label>水印文字：</label>
+                            <input type="text" id="watermark-text" value="機密文件" style="width: 200px;">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label>字體大小：</label>
+                            <input type="number" id="watermark-size" value="48" min="12" max="200" style="width: 80px;">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label>透明度：</label>
+                            <input type="range" id="watermark-opacity" min="0" max="100" value="20" style="width: 200px;">
+                            <span id="opacity-value">20%</span>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label>顏色：</label>
+                            <input type="color" id="watermark-color" value="#cccccc">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label>角度：</label>
+                            <input type="range" id="watermark-angle" min="-90" max="90" value="-45" style="width: 200px;">
+                            <span id="angle-value">-45°</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="applyWatermark()">應用到所有頁面</button>
+                        <button class="btn btn-primary" onclick="applyWatermark(true)">僅應用到當前頁</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // 更新顯示值
+            document.getElementById('watermark-opacity').oninput = function() {
+                document.getElementById('opacity-value').textContent = this.value + '%';
+            };
+            document.getElementById('watermark-angle').oninput = function() {
+                document.getElementById('angle-value').textContent = this.value + '°';
+            };
+        }
+        
+        function applyWatermark(currentPageOnly = false) {
+            const text = document.getElementById('watermark-text').value;
+            const size = parseInt(document.getElementById('watermark-size').value);
+            const opacity = parseInt(document.getElementById('watermark-opacity').value) / 100;
+            const color = document.getElementById('watermark-color').value;
+            const angle = parseInt(document.getElementById('watermark-angle').value);
+            
+            if (!text) {
+                alert('請輸入水印文字');
+                return;
+            }
+            
+            const watermark = new fabric.Text(text, {
+                fontSize: size,
+                fill: color,
+                opacity: opacity,
+                angle: angle,
+                originX: 'center',
+                originY: 'center',
+                left: AppState.fabricCanvas.width / 2,
+                top: AppState.fabricCanvas.height / 2,
+                selectable: false,
+                evented: false
+            });
+            
+            if (currentPageOnly) {
+                AppState.fabricCanvas.add(watermark);
+                watermark.sendToBack();
+                saveToHistory();
+                updateStatus('已添加水印到當前頁');
+            } else {
+                // 添加到所有頁面
+                for (let i = 1; i <= AppState.totalPages; i++) {
+                    if (!AppState.pages[i]) {
+                        AppState.pages[i] = { objects: [] };
+                    }
+                    AppState.pages[i].watermark = watermark.toObject();
+                }
+                
+                // 如果是當前頁，立即顯示
+                if (AppState.currentPage) {
+                    AppState.fabricCanvas.add(watermark);
+                    watermark.sendToBack();
+                }
+                
+                updateStatus('已添加水印到所有頁面');
+            }
+            
+            document.querySelector('.modal.active').remove();
+        }
+        
+        // 初始化簽名板
+        document.addEventListener('DOMContentLoaded', () => {
+            // 當簽名模態框顯示時初始化
+            const signatureModal = document.getElementById('signature-modal');
+            if (signatureModal) {
+                const observer = new MutationObserver((mutations) => {
+                    mutations.forEach((mutation) => {
+                        if (mutation.target.classList.contains('active')) {
+                            setTimeout(initializeSignaturePad, 100);
+                        }
+                    });
+                });
+                observer.observe(signatureModal, { attributes: true });
+            }
+        });
     </script>
     
     <!-- 載入 Telegram Bot 模組 -->
