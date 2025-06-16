@@ -1187,11 +1187,26 @@
                 <button class="tool-btn" data-tooltip="rotatePage" onclick="rotatePage(90)">
                     <i class="fas fa-redo-alt"></i>
                 </button>
+                <button class="tool-btn" data-tooltip="cropPage" onclick="cropPage()">
+                    <i class="fas fa-crop"></i>
+                </button>
                 <button class="tool-btn" data-tooltip="extractText" onclick="extractText()">
                     <i class="fas fa-file-alt"></i>
                 </button>
                 <button class="tool-btn" data-tooltip="addWatermark" onclick="addWatermark()">
                     <i class="fas fa-tint"></i>
+                </button>
+            </div>
+            
+            <div class="tool-group">
+                <button class="tool-btn" data-tooltip="encryptPDF" onclick="encryptPDF()">
+                    <i class="fas fa-lock"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="searchText" onclick="searchText()">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button class="tool-btn" data-tooltip="printPDF" onclick="printPDF()">
+                    <i class="fas fa-print"></i>
                 </button>
             </div>
             
@@ -4258,6 +4273,216 @@
             AppState.currentTool = 'highlight';
             updateToolState();
             updateStatus('選擇要高亮的區域');
+        }
+        
+        // 頁面裁切功能
+        function cropPage() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 600px;">
+                    <div class="modal-header">
+                        <span>裁切頁面</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>點擊並拖曳來選擇要保留的區域</p>
+                        <div id="crop-preview" style="position: relative; display: inline-block; margin: 20px auto;">
+                            <canvas id="crop-canvas"></canvas>
+                            <div id="crop-selection" style="position: absolute; border: 2px dashed #1a73e8; background: rgba(26, 115, 232, 0.1); display: none;"></div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <label>
+                                <input type="checkbox" id="apply-to-all"> 套用到所有頁面
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="applyCrop()">裁切</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // 初始化裁切預覽
+            initCropPreview();
+        }
+        
+        // 初始化裁切預覽
+        function initCropPreview() {
+            const canvas = document.getElementById('crop-canvas');
+            const ctx = canvas.getContext('2d');
+            const selection = document.getElementById('crop-selection');
+            const preview = document.getElementById('crop-preview');
+            
+            // 複製當前頁面到預覽
+            const sourceCanvas = document.getElementById('pdf-canvas');
+            canvas.width = sourceCanvas.width / 2;
+            canvas.height = sourceCanvas.height / 2;
+            ctx.drawImage(sourceCanvas, 0, 0, canvas.width, canvas.height);
+            
+            let isSelecting = false;
+            let startX, startY;
+            
+            canvas.onmousedown = (e) => {
+                isSelecting = true;
+                const rect = canvas.getBoundingClientRect();
+                startX = e.clientX - rect.left;
+                startY = e.clientY - rect.top;
+                selection.style.display = 'block';
+                selection.style.left = startX + 'px';
+                selection.style.top = startY + 'px';
+                selection.style.width = '0px';
+                selection.style.height = '0px';
+            };
+            
+            canvas.onmousemove = (e) => {
+                if (!isSelecting) return;
+                const rect = canvas.getBoundingClientRect();
+                const currentX = e.clientX - rect.left;
+                const currentY = e.clientY - rect.top;
+                
+                const left = Math.min(startX, currentX);
+                const top = Math.min(startY, currentY);
+                const width = Math.abs(currentX - startX);
+                const height = Math.abs(currentY - startY);
+                
+                selection.style.left = left + 'px';
+                selection.style.top = top + 'px';
+                selection.style.width = width + 'px';
+                selection.style.height = height + 'px';
+            };
+            
+            canvas.onmouseup = () => {
+                isSelecting = false;
+            };
+            
+            // 儲存裁切區域
+            window.cropArea = {
+                getSelection: () => {
+                    const rect = selection.getBoundingClientRect();
+                    const canvasRect = canvas.getBoundingClientRect();
+                    return {
+                        x: (rect.left - canvasRect.left) * 2,
+                        y: (rect.top - canvasRect.top) * 2,
+                        width: rect.width * 2,
+                        height: rect.height * 2
+                    };
+                }
+            };
+        }
+        
+        // 應用裁切
+        function applyCrop() {
+            if (!window.cropArea) return;
+            
+            const selection = window.cropArea.getSelection();
+            const applyToAll = document.getElementById('apply-to-all').checked;
+            
+            if (selection.width < 10 || selection.height < 10) {
+                alert('請選擇一個有效的裁切區域');
+                return;
+            }
+            
+            // 儲存裁切設定
+            if (!AppState.cropSettings) {
+                AppState.cropSettings = {};
+            }
+            
+            if (applyToAll) {
+                // 套用到所有頁面
+                for (let i = 1; i <= AppState.totalPages; i++) {
+                    AppState.cropSettings[i] = selection;
+                }
+            } else {
+                // 只套用到當前頁面
+                AppState.cropSettings[AppState.currentPage] = selection;
+            }
+            
+            // 重新渲染當前頁面
+            renderPage(AppState.currentPage);
+            
+            // 關閉模態框
+            document.querySelector('.modal.active').remove();
+            updateStatus('已應用裁切');
+        }
+        
+        // PDF 加密功能
+        function encryptPDF() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <span>PDF 加密設定</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 15px;">
+                            <label>使用者密碼（開啟文件需要）</label>
+                            <input type="password" id="user-password" class="form-control" placeholder="留空表示不設定">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>擁有者密碼（修改權限需要）</label>
+                            <input type="password" id="owner-password" class="form-control" placeholder="必填" required>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label>權限設定</label>
+                            <div>
+                                <label><input type="checkbox" id="allow-print" checked> 允許列印</label>
+                            </div>
+                            <div>
+                                <label><input type="checkbox" id="allow-copy" checked> 允許複製內容</label>
+                            </div>
+                            <div>
+                                <label><input type="checkbox" id="allow-modify" checked> 允許修改文件</label>
+                            </div>
+                            <div>
+                                <label><input type="checkbox" id="allow-annotate" checked> 允許添加註解</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="applyEncryption()">加密</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+        
+        // 應用加密
+        function applyEncryption() {
+            const userPassword = document.getElementById('user-password').value;
+            const ownerPassword = document.getElementById('owner-password').value;
+            
+            if (!ownerPassword) {
+                alert('請輸入擁有者密碼');
+                return;
+            }
+            
+            const permissions = {
+                printing: document.getElementById('allow-print').checked,
+                copying: document.getElementById('allow-copy').checked,
+                modifying: document.getElementById('allow-modify').checked,
+                annotating: document.getElementById('allow-annotate').checked
+            };
+            
+            // 儲存加密設定
+            AppState.encryption = {
+                userPassword: userPassword,
+                ownerPassword: ownerPassword,
+                permissions: permissions
+            };
+            
+            document.querySelector('.modal.active').remove();
+            updateStatus('已設定加密（將在匯出時應用）');
         }
         
         // 初始化
