@@ -4,7 +4,7 @@
 # 使用方法: bash quick-deploy.sh
 
 # 設定變數
-DOMAIN="vectorized.shop"
+DOMAIN="vectorized.cc"
 SERVER_IP="YOUR_SERVER_IP"  # 請替換為您的伺服器 IP
 SERVER_USER="root"          # SSH 用戶名
 
@@ -22,6 +22,10 @@ tar -czf pdfmaster.tar.gz \
     sitemap.xml \
     seo-config.json \
     api-mock.js \
+    telegram-bot.js \
+    telegram-bot-readme.md \
+    env.example \
+    create-env.sh \
     deploy.sh
 
 echo "✓ 打包完成"
@@ -31,7 +35,7 @@ echo "[2/4] 正在上傳檔案到伺服器..."
 echo "請輸入伺服器 IP 地址:"
 read SERVER_IP
 
-scp pdfmaster.tar.gz deploy.sh $SERVER_USER@$SERVER_IP:/root/
+scp pdfmaster.tar.gz deploy.sh create-env.sh $SERVER_USER@$SERVER_IP:/root/
 
 echo "✓ 上傳完成"
 
