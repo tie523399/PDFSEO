@@ -3301,10 +3301,9 @@
                 
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF();
+                let firstPage = true;
                 
                 for (let i = 1; i <= AppState.totalPages; i++) {
-                    if (i > 1) pdf.addPage();
-                    
                     // 渲染原始PDF頁面
                     const page = await AppState.pdfDoc.getPage(i);
                     const viewport = page.getViewport({ scale: 2 });
@@ -3332,22 +3331,70 @@
                         context.restore();
                     }
                     
-                    // 如果有編輯內容，疊加上去
-                        const imgData = canvas.toDataURL('image/jpeg', 1.0);
-                        const pdfWidth = mergedPdf.internal.pageSize.getWidth();
-                        const pdfHeight = mergedPdf.internal.pageSize.getHeight();
-                        mergedPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
+                    // 如果有編輯內容，創建臨時 canvas 來合併
+                    if (AppState.pages[i] && AppState.pages[i].objects && AppState.pages[i].objects.length > 0) {
+                        const tempCanvas = new fabric.Canvas(null, {
+                            width: viewport.width,
+                            height: viewport.height
+                        });
+                        
+                        // 載入該頁的編輯內容
+                        await new Promise((resolve) => {
+                            fabric.util.enlivenObjects(AppState.pages[i].objects, (objects) => {
+                                objects.forEach(obj => {
+                                    // 調整物件比例
+                                    obj.scaleX = (obj.scaleX || 1) * (viewport.width / AppState.fabricCanvas.width);
+                                    obj.scaleY = (obj.scaleY || 1) * (viewport.height / AppState.fabricCanvas.height);
+                                    obj.left = obj.left * (viewport.width / AppState.fabricCanvas.width);
+                                    obj.top = obj.top * (viewport.height / AppState.fabricCanvas.height);
+                                    tempCanvas.add(obj);
+                                });
+                                tempCanvas.renderAll();
+                                resolve();
+                            });
+                        });
+                        
+                        // 將編輯內容繪製到主 canvas 上
+                        context.drawImage(tempCanvas.getElement(), 0, 0);
                     }
+                    
+                    // 添加到 PDF
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    
+                    if (firstPage) {
+                        firstPage = false;
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = pdf.internal.pageSize.getHeight();
+                        const scale = Math.min(pdfWidth / viewport.width, pdfHeight / viewport.height);
+                        const scaledWidth = viewport.width * scale;
+                        const scaledHeight = viewport.height * scale;
+                        const x = (pdfWidth - scaledWidth) / 2;
+                        const y = (pdfHeight - scaledHeight) / 2;
+                        pdf.addImage(imgData, 'JPEG', x, y, scaledWidth, scaledHeight);
+                    } else {
+                        pdf.addPage();
+                        const pdfWidth = pdf.internal.pageSize.getWidth();
+                        const pdfHeight = pdf.internal.pageSize.getHeight();
+                        const scale = Math.min(pdfWidth / viewport.width, pdfHeight / viewport.height);
+                        const scaledWidth = viewport.width * scale;
+                        const scaledHeight = viewport.height * scale;
+                        const x = (pdfWidth - scaledWidth) / 2;
+                        const y = (pdfHeight - scaledHeight) / 2;
+                        pdf.addImage(imgData, 'JPEG', x, y, scaledWidth, scaledHeight);
+                    }
+                    
+                    updateStatus(`正在處理第 ${i}/${AppState.totalPages} 頁...`);
                 }
                 
-                mergedPdf.save('merged_document.pdf');
-                document.querySelector('.modal.active').remove();
-                updateStatus('PDF 合併完成');
+                // 儲存 PDF
+                const fileName = AppState.fileName ? AppState.fileName.replace('.pdf', '_edited.pdf') : 'edited_document.pdf';
+                pdf.save(fileName);
+                updateStatus('PDF 匯出完成');
                 
             } catch (error) {
-                console.error('合併 PDF 時發生錯誤:', error);
-                alert('合併 PDF 時發生錯誤');
-                updateStatus('合併失敗');
+                console.error('匯出 PDF 時發生錯誤:', error);
+                alert('匯出 PDF 時發生錯誤: ' + error.message);
+                updateStatus('匯出失敗');
             }
         }
         
@@ -3606,8 +3653,458 @@
             document.querySelector('.modal.active').remove();
         }
         
+        // 旋轉頁面功能
+        function rotatePage(degrees) {
+            if (!AppState.currentPage) return;
+            
+            // 初始化旋轉記錄
+            if (!AppState.pageRotations) {
+                AppState.pageRotations = {};
+            }
+            
+            // 更新旋轉角度
+            const currentRotation = AppState.pageRotations[AppState.currentPage] || 0;
+            AppState.pageRotations[AppState.currentPage] = (currentRotation + degrees) % 360;
+            
+            // 重新渲染頁面
+            renderPage(AppState.currentPage);
+            updateStatus(`頁面已旋轉 ${degrees} 度`);
+        }
+        
+        // 設定功能
+        function showSettings() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 500px;">
+                    <div class="modal-header">
+                        <span>設定</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="setting-group">
+                            <h3>顯示設定</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="show-grid" ${AppState.showGrid ? 'checked' : ''}>
+                                    顯示網格
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="show-rulers" ${AppState.showRulers ? 'checked' : ''}>
+                                    顯示尺規
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" id="auto-save" ${AppState.autoSave ? 'checked' : ''}>
+                                    自動儲存編輯
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h3>預設值</h3>
+                            <div class="setting-item">
+                                <label>預設字體大小：</label>
+                                <input type="number" id="default-font-size" value="${AppState.defaultFontSize || 16}" min="8" max="72" style="width: 60px;">
+                            </div>
+                            <div class="setting-item">
+                                <label>預設線條寬度：</label>
+                                <input type="number" id="default-stroke-width" value="${AppState.defaultStrokeWidth || 2}" min="1" max="20" style="width: 60px;">
+                            </div>
+                            <div class="setting-item">
+                                <label>預設顏色：</label>
+                                <input type="color" id="default-color" value="${AppState.defaultColor || '#000000'}">
+                            </div>
+                        </div>
+                        
+                        <div class="setting-group">
+                            <h3>效能設定</h3>
+                            <div class="setting-item">
+                                <label>渲染品質：</label>
+                                <select id="render-quality">
+                                    <option value="low" ${AppState.renderQuality === 'low' ? 'selected' : ''}>低</option>
+                                    <option value="medium" ${AppState.renderQuality === 'medium' ? 'selected' : ''}>中</option>
+                                    <option value="high" ${AppState.renderQuality === 'high' ? 'selected' : ''}>高</option>
+                                </select>
+                            </div>
+                            <div class="setting-item">
+                                <label>最大歷史記錄數：</label>
+                                <input type="number" id="max-history" value="${AppState.maxHistory || 50}" min="10" max="200" style="width: 60px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">取消</button>
+                        <button class="btn btn-primary" onclick="saveSettings()">儲存設定</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // 添加樣式
+            const style = document.createElement('style');
+            style.textContent = `
+                .setting-group {
+                    margin-bottom: 20px;
+                    padding-bottom: 20px;
+                    border-bottom: 1px solid #e0e0e0;
+                }
+                .setting-group:last-child {
+                    border-bottom: none;
+                }
+                .setting-group h3 {
+                    margin-bottom: 15px;
+                    color: #333;
+                    font-size: 16px;
+                }
+                .setting-item {
+                    margin-bottom: 10px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                }
+                .setting-item label {
+                    flex: 1;
+                }
+            `;
+            modal.appendChild(style);
+        }
+        
+        // 儲存設定
+        function saveSettings() {
+            AppState.showGrid = document.getElementById('show-grid').checked;
+            AppState.showRulers = document.getElementById('show-rulers').checked;
+            AppState.autoSave = document.getElementById('auto-save').checked;
+            AppState.defaultFontSize = parseInt(document.getElementById('default-font-size').value);
+            AppState.defaultStrokeWidth = parseInt(document.getElementById('default-stroke-width').value);
+            AppState.defaultColor = document.getElementById('default-color').value;
+            AppState.renderQuality = document.getElementById('render-quality').value;
+            AppState.maxHistory = parseInt(document.getElementById('max-history').value);
+            
+            // 儲存到 localStorage
+            localStorage.setItem('pdfMasterSettings', JSON.stringify({
+                showGrid: AppState.showGrid,
+                showRulers: AppState.showRulers,
+                autoSave: AppState.autoSave,
+                defaultFontSize: AppState.defaultFontSize,
+                defaultStrokeWidth: AppState.defaultStrokeWidth,
+                defaultColor: AppState.defaultColor,
+                renderQuality: AppState.renderQuality,
+                maxHistory: AppState.maxHistory
+            }));
+            
+            // 應用設定
+            applySettings();
+            
+            document.querySelector('.modal.active').remove();
+            updateStatus('設定已儲存');
+        }
+        
+        // 應用設定
+        function applySettings() {
+            // 更新渲染品質
+            if (AppState.renderQuality && AppState.pdfDoc) {
+                const qualityScale = {
+                    'low': 1,
+                    'medium': 1.5,
+                    'high': 2
+                };
+                AppState.renderScale = qualityScale[AppState.renderQuality] || 1.5;
+                renderPage(AppState.currentPage);
+            }
+            
+            // 更新歷史記錄限制
+            if (AppState.history && AppState.history.length > AppState.maxHistory) {
+                AppState.history = AppState.history.slice(-AppState.maxHistory);
+                AppState.historyIndex = AppState.history.length - 1;
+            }
+        }
+        
+        // 載入設定
+        function loadSettings() {
+            const savedSettings = localStorage.getItem('pdfMasterSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                Object.assign(AppState, settings);
+            }
+        }
+        
+        // 列印 PDF
+        function printPDF() {
+            if (!AppState.pdfDoc) {
+                alert('請先載入 PDF 檔案');
+                return;
+            }
+            
+            updateStatus('正在準備列印...');
+            
+            // 創建列印用的 iframe
+            const printFrame = document.createElement('iframe');
+            printFrame.style.position = 'fixed';
+            printFrame.style.right = '0';
+            printFrame.style.bottom = '0';
+            printFrame.style.width = '0';
+            printFrame.style.height = '0';
+            printFrame.style.border = '0';
+            document.body.appendChild(printFrame);
+            
+            const printDocument = printFrame.contentWindow.document;
+            printDocument.open();
+            printDocument.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>列印 PDF</title>
+                    <style>
+                        @media print {
+                            body { margin: 0; }
+                            .page { page-break-after: always; }
+                            .page:last-child { page-break-after: auto; }
+                            img { max-width: 100%; height: auto; }
+                        }
+                    </style>
+                </head>
+                <body></body>
+                </html>
+            `);
+            printDocument.close();
+            
+            // 渲染所有頁面
+            const renderPromises = [];
+            for (let i = 1; i <= AppState.totalPages; i++) {
+                renderPromises.push(renderPageForPrint(i, printDocument.body));
+            }
+            
+            Promise.all(renderPromises).then(() => {
+                updateStatus('正在開啟列印對話框...');
+                printFrame.contentWindow.focus();
+                printFrame.contentWindow.print();
+                
+                // 列印完成後移除 iframe
+                setTimeout(() => {
+                    document.body.removeChild(printFrame);
+                    updateStatus('列印準備完成');
+                }, 1000);
+            }).catch(error => {
+                console.error('準備列印時發生錯誤:', error);
+                alert('準備列印時發生錯誤');
+                document.body.removeChild(printFrame);
+                updateStatus('列印失敗');
+            });
+        }
+        
+        // 為列印渲染頁面
+        async function renderPageForPrint(pageNum, container) {
+            const page = await AppState.pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 2 });
+            
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            // 考慮頁面旋轉
+            const rotation = AppState.pageRotations && AppState.pageRotations[pageNum] || 0;
+            if (rotation !== 0) {
+                context.save();
+                context.translate(canvas.width / 2, canvas.height / 2);
+                context.rotate(rotation * Math.PI / 180);
+                context.translate(-canvas.width / 2, -canvas.height / 2);
+            }
+            
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+            
+            if (rotation !== 0) {
+                context.restore();
+            }
+            
+            // 如果有編輯內容，疊加上去
+            if (AppState.pages[pageNum] && AppState.pages[pageNum].objects && AppState.pages[pageNum].objects.length > 0) {
+                const tempCanvas = new fabric.Canvas(null, {
+                    width: viewport.width,
+                    height: viewport.height
+                });
+                
+                await new Promise((resolve) => {
+                    fabric.util.enlivenObjects(AppState.pages[pageNum].objects, (objects) => {
+                        objects.forEach(obj => {
+                            obj.scaleX = (obj.scaleX || 1) * (viewport.width / AppState.fabricCanvas.width);
+                            obj.scaleY = (obj.scaleY || 1) * (viewport.height / AppState.fabricCanvas.height);
+                            obj.left = obj.left * (viewport.width / AppState.fabricCanvas.width);
+                            obj.top = obj.top * (viewport.height / AppState.fabricCanvas.height);
+                            tempCanvas.add(obj);
+                        });
+                        tempCanvas.renderAll();
+                        resolve();
+                    });
+                });
+                
+                context.drawImage(tempCanvas.getElement(), 0, 0);
+            }
+            
+            // 創建頁面容器
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'page';
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            pageDiv.appendChild(img);
+            container.appendChild(pageDiv);
+        }
+        
+        // 搜尋文字功能
+        function searchText() {
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <span>搜尋文字</span>
+                        <button class="close-btn" onclick="this.closest('.modal').remove()">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div style="margin-bottom: 15px;">
+                            <input type="text" id="search-input" placeholder="輸入要搜尋的文字..." style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label>
+                                <input type="checkbox" id="search-case-sensitive">
+                                區分大小寫
+                            </label>
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label>
+                                <input type="checkbox" id="search-whole-word">
+                                全字匹配
+                            </label>
+                        </div>
+                        <div id="search-results" style="margin-top: 20px; max-height: 200px; overflow-y: auto;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">關閉</button>
+                        <button class="btn btn-primary" onclick="performSearch()">搜尋</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            
+            // 聚焦到搜尋輸入框
+            document.getElementById('search-input').focus();
+            
+            // 按 Enter 鍵搜尋
+            document.getElementById('search-input').onkeypress = (e) => {
+                if (e.key === 'Enter') {
+                    performSearch();
+                }
+            };
+        }
+        
+        // 執行搜尋
+        async function performSearch() {
+            const searchTerm = document.getElementById('search-input').value.trim();
+            if (!searchTerm) {
+                alert('請輸入搜尋文字');
+                return;
+            }
+            
+            const caseSensitive = document.getElementById('search-case-sensitive').checked;
+            const wholeWord = document.getElementById('search-whole-word').checked;
+            const resultsDiv = document.getElementById('search-results');
+            
+            resultsDiv.innerHTML = '<p>搜尋中...</p>';
+            
+            const results = [];
+            
+            try {
+                for (let pageNum = 1; pageNum <= AppState.totalPages; pageNum++) {
+                    const page = await AppState.pdfDoc.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    
+                    let searchIn = pageText;
+                    let searchFor = searchTerm;
+                    
+                    if (!caseSensitive) {
+                        searchIn = searchIn.toLowerCase();
+                        searchFor = searchFor.toLowerCase();
+                    }
+                    
+                    if (wholeWord) {
+                        const regex = new RegExp(`\\b${searchFor}\\b`, caseSensitive ? 'g' : 'gi');
+                        const matches = searchIn.match(regex);
+                        if (matches) {
+                            results.push({
+                                page: pageNum,
+                                count: matches.length,
+                                preview: getTextPreview(pageText, searchTerm, caseSensitive)
+                            });
+                        }
+                    } else {
+                        const index = searchIn.indexOf(searchFor);
+                        if (index !== -1) {
+                            const count = (searchIn.match(new RegExp(searchFor, 'g')) || []).length;
+                            results.push({
+                                page: pageNum,
+                                count: count,
+                                preview: getTextPreview(pageText, searchTerm, caseSensitive)
+                            });
+                        }
+                    }
+                }
+                
+                // 顯示結果
+                if (results.length > 0) {
+                    resultsDiv.innerHTML = `<p>找到 ${results.length} 個頁面包含 "${searchTerm}"：</p>`;
+                    results.forEach(result => {
+                        const resultItem = document.createElement('div');
+                        resultItem.style.cssText = 'padding: 10px; margin: 5px 0; background: #f5f5f5; border-radius: 4px; cursor: pointer;';
+                        resultItem.innerHTML = `
+                            <strong>第 ${result.page} 頁</strong> (${result.count} 處匹配)<br>
+                            <small style="color: #666;">${result.preview}</small>
+                        `;
+                        resultItem.onclick = () => {
+                            goToPage(result.page);
+                            document.querySelector('.modal.active').remove();
+                        };
+                        resultsDiv.appendChild(resultItem);
+                    });
+                } else {
+                    resultsDiv.innerHTML = `<p>未找到 "${searchTerm}"</p>`;
+                }
+            } catch (error) {
+                console.error('搜尋時發生錯誤:', error);
+                resultsDiv.innerHTML = '<p style="color: red;">搜尋時發生錯誤</p>';
+            }
+        }
+        
+        // 獲取文字預覽
+        function getTextPreview(text, searchTerm, caseSensitive) {
+            const searchIn = caseSensitive ? text : text.toLowerCase();
+            const searchFor = caseSensitive ? searchTerm : searchTerm.toLowerCase();
+            const index = searchIn.indexOf(searchFor);
+            
+            if (index === -1) return '';
+            
+            const start = Math.max(0, index - 30);
+            const end = Math.min(text.length, index + searchTerm.length + 30);
+            let preview = text.substring(start, end);
+            
+            if (start > 0) preview = '...' + preview;
+            if (end < text.length) preview = preview + '...';
+            
+            return preview;
+        }
+        
         // 初始化簽名板
         document.addEventListener('DOMContentLoaded', () => {
+            // 載入設定
+            loadSettings();
+            
             // 當簽名模態框顯示時初始化
             const signatureModal = document.getElementById('signature-modal');
             if (signatureModal) {
