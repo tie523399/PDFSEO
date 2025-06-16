@@ -92,6 +92,12 @@ deploy_application() {
 configure_nginx() {
     print_message "正在配置 Nginx..."
     
+    # 先移除預設站點配置
+    if [ -f "/etc/nginx/sites-enabled/default" ]; then
+        print_message "移除預設 Nginx 站點..."
+        rm -f /etc/nginx/sites-enabled/default
+    fi
+    
     # 創建 Nginx 配置檔案
     cat > $NGINX_CONF << 'EOF'
 # PDF Master Nginx 配置
@@ -236,10 +242,14 @@ configure_firewall() {
     ufw default deny incoming
     ufw default allow outgoing
     ufw allow ssh
+    ufw allow 80/tcp
+    ufw allow 443/tcp
     ufw allow 'Nginx Full'
     
     # 啟用防火牆
     echo "y" | ufw enable
+    
+    print_message "防火牆已配置，開放端口：22, 80, 443"
 }
 
 # 創建系統服務（如果需要後端服務）

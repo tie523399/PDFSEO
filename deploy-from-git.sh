@@ -143,6 +143,12 @@ EOF
 configure_nginx() {
     print_message "正在配置 Nginx..."
     
+    # 先移除預設站點配置
+    if [ -f "/etc/nginx/sites-enabled/default" ]; then
+        print_message "移除預設 Nginx 站點..."
+        rm -f /etc/nginx/sites-enabled/default
+    fi
+    
     # 創建 Nginx 配置檔案
     cat > $NGINX_CONF << 'EOF'
 # PDF Master Nginx 配置
@@ -260,6 +266,15 @@ configure_ssl() {
     
     # 創建 certbot webroot 目錄
     mkdir -p /var/www/certbot
+    chown -R www-data:www-data /var/www/certbot
+    
+    # 先測試 HTTP 是否可訪問
+    print_message "測試 HTTP 訪問..."
+    if curl -f -s -o /dev/null "http://$DOMAIN"; then
+        print_message "HTTP 訪問正常，開始申請 SSL 證書..."
+    else
+        print_warning "HTTP 訪問失敗，請檢查域名解析和防火牆設置"
+    fi
     
     # 獲取 Let's Encrypt SSL 證書
     certbot --nginx -d $DOMAIN -d $WWW_DOMAIN --non-interactive --agree-tos --email $EMAIL --redirect
@@ -287,10 +302,14 @@ configure_firewall() {
     ufw default deny incoming
     ufw default allow outgoing
     ufw allow ssh
+    ufw allow 80/tcp
+    ufw allow 443/tcp
     ufw allow 'Nginx Full'
     
     # 啟用防火牆
     echo "y" | ufw enable
+    
+    print_message "防火牆已配置，開放端口：22, 80, 443"
 }
 
 # 創建更新腳本
