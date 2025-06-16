@@ -4100,7 +4100,167 @@
             return preview;
         }
         
+        // 上傳圖片功能
+        function uploadImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        fabric.Image.fromURL(event.target.result, (img) => {
+                            img.set({
+                                left: 100,
+                                top: 100,
+                                scaleX: 0.5,
+                                scaleY: 0.5
+                            });
+                            AppState.fabricCanvas.add(img);
+                            saveToHistory();
+                            updateStatus('已添加圖片');
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        }
+        
+        // 添加印章功能
+        function addStamp(type) {
+            const stamps = {
+                approved: { text: 'APPROVED', color: '#4CAF50' },
+                rejected: { text: 'REJECTED', color: '#f44336' },
+                confidential: { text: 'CONFIDENTIAL', color: '#FF9800' },
+                copy: { text: 'COPY', color: '#2196F3' },
+                urgent: { text: 'URGENT', color: '#F44336' },
+                paid: { text: 'PAID', color: '#4CAF50' }
+            };
+            
+            const stamp = stamps[type];
+            if (!stamp) return;
+            
+            const text = new fabric.Text(stamp.text, {
+                left: 100,
+                top: 100,
+                fontSize: 48,
+                fontWeight: 'bold',
+                fill: stamp.color,
+                opacity: 0.7,
+                angle: -30,
+                fontFamily: 'Arial'
+            });
+            
+            AppState.fabricCanvas.add(text);
+            saveToHistory();
+            updateStatus(`已添加 ${stamp.text} 印章`);
+            
+            // 關閉模態框
+            document.querySelector('.modal.active').classList.remove('active');
+        }
+        
+        // 添加簽名功能
+        function addSignature() {
+            const modal = document.getElementById('signature-modal');
+            modal.classList.add('active');
+        }
+        
         // 初始化簽名板
+        function initializeSignaturePad() {
+            const canvas = document.getElementById('signature-pad');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            
+            // 設置畫布大小
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // 繪製功能
+            function startDrawing(e) {
+                isDrawing = true;
+                const rect = canvas.getBoundingClientRect();
+                lastX = (e.clientX || e.touches[0].clientX) - rect.left;
+                lastY = (e.clientY || e.touches[0].clientY) - rect.top;
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const rect = canvas.getBoundingClientRect();
+                const currentX = (e.clientX || e.touches[0].clientX) - rect.left;
+                const currentY = (e.clientY || e.touches[0].clientY) - rect.top;
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(currentX, currentY);
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                lastX = currentX;
+                lastY = currentY;
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            // 滑鼠事件
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // 觸控事件
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startDrawing(e);
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e);
+            });
+            canvas.addEventListener('touchend', stopDrawing);
+            
+            // 清除按鈕
+            document.getElementById('clear-signature').onclick = () => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+            
+            // 保存按鈕
+            document.getElementById('save-signature').onclick = () => {
+                const dataURL = canvas.toDataURL();
+                fabric.Image.fromURL(dataURL, (img) => {
+                    img.set({
+                        left: 100,
+                        top: 100,
+                        scaleX: 0.5,
+                        scaleY: 0.5
+                    });
+                    AppState.fabricCanvas.add(img);
+                    saveToHistory();
+                    updateStatus('已添加簽名');
+                });
+                
+                // 關閉模態框
+                modal.classList.remove('active');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            };
+        }
+        
+        // 高亮文字功能
+        function highlightText() {
+            AppState.currentTool = 'highlight';
+            updateToolState();
+            updateStatus('選擇要高亮的區域');
+        }
+        
+        // 初始化
         document.addEventListener('DOMContentLoaded', () => {
             // 載入設定
             loadSettings();
